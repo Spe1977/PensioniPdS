@@ -30,18 +30,19 @@
         Avanti
         <ion-icon slot="end" name="arrow-forward-outline"></ion-icon>
       </ion-button>
-
-      <ion-button
-        expand="block"
-        fill="clear"
-        shape="round"
-        color="medium"
-        class="ion-margin-top"
-        (click)="onCancella()"
-      >
-        <ion-icon slot="start" name="trash-outline"></ion-icon>
-        Cancella dati
-      </ion-button>
     </div>
   </form>
+
+  <div class="delete-container">
+    <ion-button
+      expand="block"
+      fill="solid"
+      shape="round"
+      color="danger"
+      (click)="onCancella()"
+    >
+      <ion-icon slot="start" name="trash-outline"></ion-icon>
+      Cancella dati
+    </ion-button>
+  </div>
 </ion-content>
