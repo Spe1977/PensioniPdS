@@ -1,0 +1,121 @@
+ion-header {
+  ion-toolbar {
+    --background: transparent;
+  }
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  max-width: 600px;
+  margin: 0 auto;
+  gap: 1.5rem;
+  padding-bottom: 2rem;
+}
+
+.section-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--ion-color-dark);
+}
+
+.section-subtitle {
+  font-size: 1rem;
+  font-weight: 500;
+  margin: 0;
+  color: var(--ion-color-medium);
+}
+
+.upload-box {
+  background: var(--ion-color-light);
+  border: 2px dashed var(--ion-color-medium-tint);
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: rgba(var(--ion-color-primary-rgb), 0.05);
+    border-color: var(--ion-color-primary);
+  }
+}
+
+.upload-icon {
+  font-size: 2.5rem;
+  color: var(--ion-color-primary);
+  margin-bottom: 0.5rem;
+}
+
+.upload-text {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--ion-color-dark);
+  font-weight: 500;
+  word-break: break-all;
+}
+
+.manual-data-section {
+  background: rgba(var(--ion-color-light-rgb), 0.5);
+  border-radius: 12px;
+  padding: 1rem;
+  border: 1px solid rgba(var(--ion-color-medium-rgb), 0.2);
+}
+
+.manual-data-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.25rem;
+}
+
+.helper-text {
+  font-size: 0.8rem;
+  color: var(--ion-color-medium);
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+.contributi-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.contributo-row {
+  background: var(--ion-color-light);
+  border-radius: 8px;
+  padding: 0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.custom-input {
+  --background: transparent;
+  --padding-start: 0.5rem;
+  --padding-end: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.fiscal-data-section {
+  .section-title {
+    margin-top: 0;
+  }
+}
+
+.fiscal-grid {
+  background: var(--ion-color-light);
+  border-radius: 8px;
+  padding: 8px;
+}
+
+.actions-container {
+  margin-top: 1rem;
+}
+
+.action-btn {
+  --box-shadow: 0 4px 12px rgba(var(--ion-color-primary-rgb), 0.3);
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  height: 3.5rem;
+}

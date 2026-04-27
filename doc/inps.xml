@@ -1,0 +1,646 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<EstrattoConto>
+    <DatiAnagrafici>
+        <Cognome>SPERDUTI</Cognome>
+        <Nome>LEONARDO</Nome>
+        <DataNascita>
+            <Giorno>23</Giorno>
+            <Mese>05</Mese>
+            <Anno>1977</Anno>
+        </DataNascita>
+        <Sesso>Maschio</Sesso>
+        <LuogoNascita>PESCARA</LuogoNascita>
+        <ProvinciaNascita>PE</ProvinciaNascita>
+        <CodiceFiscale>SPRLRD77E23G482X</CodiceFiscale>
+        <Indirizzo>
+            <Via/>
+            <Comune/>
+            <Provincia>  </Provincia>
+            <Cap>     </Cap>
+        </Indirizzo>
+    </DatiAnagrafici>
+    <Aggiornamento>
+        <DataEmissioneEstratto>
+            <Giorno>16</Giorno>
+            <Mese>04</Mese>
+            <Anno>2026</Anno>
+        </DataEmissioneEstratto>
+        <EsitoElaborazione>Elaborazione regolare</EsitoElaborazione>
+    </Aggiornamento>
+    <GestionePubblica>
+        <ContributiGestionePubblica>
+            <RigaContributiGestionePubblica>
+                <Dal>30/03/1999</Dal>
+                <Al>31/12/1999</Al>
+                <GestioneOFondo>Stato</GestioneOFondo>
+                <TipoDiContribuzione>Contratto a tempo indeterminato</TipoDiContribuzione>
+                <AnniContribUtiliDiritto>0</AnniContribUtiliDiritto>
+                <MesiContribUtiliDiritto>9</MesiContribUtiliDiritto>
+                <GiorniContribUtiliDiritto>1</GiorniContribUtiliDiritto>
+                <AnniContribUtiliMisura>0</AnniContribUtiliMisura>
+                <MesiContribUtiliMisura>9</MesiContribUtiliMisura>
+                <GiorniContribUtiliMisura>1.00</GiorniContribUtiliMisura>
+                <Maggiorazione>
+                    <Codice>22</Codice>
+                    <Descrizione>Servizio di istituto con percezione dell'indennita' - L. 284/77, art.3 (1/5)</Descrizione>
+                </Maggiorazione>
+                <RetribuzioneEuro>17.145,42</RetribuzioneEuro>
+                <AmministrazioneOEnte>
+                    <Codice>8004674017300000</Codice>
+                    <Descrizione>PREFETTURA -UFFICIO TERRITORIALE DEL GOVERNO</Descrizione>
+                </AmministrazioneOEnte>
+                <Nota>
+                    <Codice>A</Codice>
+                    <Descrizione>Le maggiorazioni presenti sull'estratto conto saranno valutate in sede di       pensione, secondo le norme vigenti e con le limitazioni eventualmente previste.</Descrizione>
+                </Nota>
+            </RigaContributiGestionePubblica>
+            <RigaContributiGestionePubblica>
+                <Dal>01/01/2000</Dal>
+                <Al>31/12/2000</Al>
+                <GestioneOFondo>Stato</GestioneOFondo>
+                <TipoDiContribuzione>Contratto a tempo indeterminato</TipoDiContribuzione>
+                <AnniContribUtiliDiritto>1</AnniContribUtiliDiritto>
+                <MesiContribUtiliDiritto>0</MesiContribUtiliDiritto>
+                <GiorniContribUtiliDiritto>0</GiorniContribUtiliDiritto>
+                <AnniContribUtiliMisura>1</AnniContribUtiliMisura>
+                <MesiContribUtiliMisura>0</MesiContribUtiliMisura>
+                <GiorniContribUtiliMisura>0.00</GiorniContribUtiliMisura>
+                <Maggiorazione>
+                    <Codice>22</Codice>
+                    <Descrizione>Servizio di istituto con percezione dell'indennita' - L. 284/77, art.3 (1/5)</Descrizione>
+                </Maggiorazione>
+                <RetribuzioneEuro>24.278,71</RetribuzioneEuro>
+                <AmministrazioneOEnte>
+                    <Codice>8004674017300000</Codice>
+                    <Descrizione>PREFETTURA -UFFICIO TERRITORIALE DEL GOVERNO</Descrizione>
+                </AmministrazioneOEnte>
+                <Nota>
+                    <Codice>A</Codice>
+                    <Descrizione>Le maggiorazioni presenti sull'estratto conto saranno valutate in sede di       pensione, secondo le norme vigenti e con le limitazioni eventualmente previste.</Descrizione>
+                </Nota>
+            </RigaContributiGestionePubblica>
+            <RigaContributiGestionePubblica>
+                <Dal>01/01/2001</Dal>
+                <Al>31/12/2001</Al>
+                <GestioneOFondo>Stato</GestioneOFondo>
+                <TipoDiContribuzione>Contratto a tempo indeterminato</TipoDiContribuzione>
+                <AnniContribUtiliDiritto>1</AnniContribUtiliDiritto>
+                <MesiContribUtiliDiritto>0</MesiContribUtiliDiritto>
+                <GiorniContribUtiliDiritto>0</GiorniContribUtiliDiritto>
+                <AnniContribUtiliMisura>1</AnniContribUtiliMisura>
+                <MesiContribUtiliMisura>0</MesiContribUtiliMisura>
+                <GiorniContribUtiliMisura>0.00</GiorniContribUtiliMisura>
+                <Maggiorazione>
+                    <Codice>22</Codice>
+                    <Descrizione>Servizio di istituto con percezione dell'indennita' - L. 284/77, art.3 (1/5)</Descrizione>
+                </Maggiorazione>
+                <RetribuzioneEuro>26.153,72</RetribuzioneEuro>
+                <AmministrazioneOEnte>
+                    <Codice>8004674017300000</Codice>
+                    <Descrizione>PREFETTURA -UFFICIO TERRITORIALE DEL GOVERNO</Descrizione>
+                </AmministrazioneOEnte>
+                <Nota>
+                    <Codice>A</Codice>
+                    <Descrizione>Le maggiorazioni presenti sull'estratto conto saranno valutate in sede di       pensione, secondo le norme vigenti e con le limitazioni eventualmente previste.</Descrizione>
+                </Nota>
+            </RigaContributiGestionePubblica>
+            <RigaContributiGestionePubblica>
+                <Dal>01/01/2002</Dal>
+                <Al>31/12/2002</Al>
+                <GestioneOFondo>Stato</GestioneOFondo>
+                <TipoDiContribuzione>Contratto a tempo indeterminato</TipoDiContribuzione>
+                <AnniContribUtiliDiritto>1</AnniContribUtiliDiritto>
+                <MesiContribUtiliDiritto>0</MesiContribUtiliDiritto>
+                <GiorniContribUtiliDiritto>0</GiorniContribUtiliDiritto>
+                <AnniContribUtiliMisura>1</AnniContribUtiliMisura>
+                <MesiContribUtiliMisura>0</MesiContribUtiliMisura>
+                <GiorniContribUtiliMisura>0.00</GiorniContribUtiliMisura>
+                <Maggiorazione>
+                    <Codice>22</Codice>
+                    <Descrizione>Servizio di istituto con percezione dell'indennita' - L. 284/77, art.3 (1/5)</Descrizione>
+                </Maggiorazione>
+                <RetribuzioneEuro>27.817,38</RetribuzioneEuro>
+                <AmministrazioneOEnte>
+                    <Codice>8004674017300000</Codice>
+                    <Descrizione>PREFETTURA -UFFICIO TERRITORIALE DEL GOVERNO</Descrizione>
+                </AmministrazioneOEnte>
+                <Nota>
+                    <Codice>A</Codice>
+                    <Descrizione>Le maggiorazioni presenti sull'estratto conto saranno valutate in sede di       pensione, secondo le norme vigenti e con le limitazioni eventualmente previste.</Descrizione>
+                </Nota>
+            </RigaContributiGestionePubblica>
+            <RigaContributiGestionePubblica>
+                <Dal>01/01/2003</Dal>
+                <Al>31/12/2003</Al>
+                <GestioneOFondo>Stato</GestioneOFondo>
+                <TipoDiContribuzione>Contratto a tempo indeterminato</TipoDiContribuzione>
+                <AnniContribUtiliDiritto>1</AnniContribUtiliDiritto>
+                <MesiContribUtiliDiritto>0</MesiContribUtiliDiritto>
+                <GiorniContribUtiliDiritto>0</GiorniContribUtiliDiritto>
+                <AnniContribUtiliMisura>1</AnniContribUtiliMisura>
+                <MesiContribUtiliMisura>0</MesiContribUtiliMisura>
+                <GiorniContribUtiliMisura>0.00</GiorniContribUtiliMisura>
+                <Maggiorazione>
+                    <Codice>22</Codice>
+                    <Descrizione>Servizio di istituto con percezione dell'indennita' - L. 284/77, art.3 (1/5)</Descrizione>
+                </Maggiorazione>
+                <RetribuzioneEuro>28.473,05</RetribuzioneEuro>
+                <AmministrazioneOEnte>
+                    <Codice>8004674017300000</Codice>
+                    <Descrizione>PREFETTURA -UFFICIO TERRITORIALE DEL GOVERNO</Descrizione>
+                </AmministrazioneOEnte>
+                <Nota>
+                    <Codice>A</Codice>
+                    <Descrizione>Le maggiorazioni presenti sull'estratto conto saranno valutate in sede di       pensione, secondo le norme vigenti e con le limitazioni eventualmente previste.</Descrizione>
+                </Nota>
+            </RigaContributiGestionePubblica>
+            <RigaContributiGestionePubblica>
+                <Dal>01/01/2004</Dal>
+                <Al>31/12/2004</Al>
+                <GestioneOFondo>Stato</GestioneOFondo>
+                <TipoDiContribuzione>Contratto a tempo indeterminato</TipoDiContribuzione>
+                <AnniContribUtiliDiritto>1</AnniContribUtiliDiritto>
+                <MesiContribUtiliDiritto>0</MesiContribUtiliDiritto>
+                <GiorniContribUtiliDiritto>0</GiorniContribUtiliDiritto>
+                <AnniContribUtiliMisura>1</AnniContribUtiliMisura>
+                <MesiContribUtiliMisura>0</MesiContribUtiliMisura>
+                <GiorniContribUtiliMisura>0.00</GiorniContribUtiliMisura>
+                <Maggiorazione>
+                    <Codice>22</Codice>
+                    <Descrizione>Servizio di istituto con percezione dell'indennita' - L. 284/77, art.3 (1/5)</Descrizione>
+                </Maggiorazione>
+                <RetribuzioneEuro>30.327,95</RetribuzioneEuro>
+                <AmministrazioneOEnte>
+                    <Codice>8004674017300000</Codice>
+                    <Descrizione>PREFETTURA -UFFICIO TERRITORIALE DEL GOVERNO</Descrizione>
+                </AmministrazioneOEnte>
+                <Nota>
+                    <Codice>A</Codice>
+                    <Descrizione>Le maggiorazioni presenti sull'estratto conto saranno valutate in sede di       pensione, secondo le norme vigenti e con le limitazioni eventualmente previste.</Descrizione>
+                </Nota>
+            </RigaContributiGestionePubblica>
+            <RigaContributiGestionePubblica>
+                <Dal>01/01/2005</Dal>
+                <Al>31/12/2005</Al>
+                <GestioneOFondo>Stato</GestioneOFondo>
+                <TipoDiContribuzione>Contratto a tempo indeterminato</TipoDiContribuzione>
+                <AnniContribUtiliDiritto>1</AnniContribUtiliDiritto>
+                <MesiContribUtiliDiritto>0</MesiContribUtiliDiritto>
+                <GiorniContribUtiliDiritto>0</GiorniContribUtiliDiritto>
+                <AnniContribUtiliMisura>1</AnniContribUtiliMisura>
+                <MesiContribUtiliMisura>0</MesiContribUtiliMisura>
+                <GiorniContribUtiliMisura>0.00</GiorniContribUtiliMisura>
+                <Maggiorazione>
+                    <Codice>22</Codice>
+                    <Descrizione>Servizio di istituto con percezione dell'indennita' - L. 284/77, art.3 (1/5)</Descrizione>
+                </Maggiorazione>
+                <RetribuzioneEuro>34.539,79</RetribuzioneEuro>
+                <AmministrazioneOEnte>
+                    <Codice>8004674017300000</Codice>
+                    <Descrizione>PREFETTURA -UFFICIO TERRITORIALE DEL GOVERNO</Descrizione>
+                </AmministrazioneOEnte>
+                <Nota>
+                    <Codice>A</Codice>
+                    <Descrizione>Le maggiorazioni presenti sull'estratto conto saranno valutate in sede di       pensione, secondo le norme vigenti e con le limitazioni eventualmente previste.</Descrizione>
+                </Nota>
+            </RigaContributiGestionePubblica>
+            <RigaContributiGestionePubblica>
+                <Dal>01/01/2006</Dal>
+                <Al>31/12/2006</Al>
+                <GestioneOFondo>Stato</GestioneOFondo>
+                <TipoDiContribuzione>Contratto a tempo indeterminato</TipoDiContribuzione>
+                <AnniContribUtiliDiritto>1</AnniContribUtiliDiritto>
+                <MesiContribUtiliDiritto>0</MesiContribUtiliDiritto>
+                <GiorniContribUtiliDiritto>0</GiorniContribUtiliDiritto>
+                <AnniContribUtiliMisura>1</AnniContribUtiliMisura>
+                <MesiContribUtiliMisura>0</MesiContribUtiliMisura>
+                <GiorniContribUtiliMisura>0.00</GiorniContribUtiliMisura>
+                <Maggiorazione>
+                    <Codice>22</Codice>
+                    <Descrizione>Servizio di istituto con percezione dell'indennita' - L. 284/77, art.3 (1/5)</Descrizione>
+                </Maggiorazione>
+                <RetribuzioneEuro>33.912,95</RetribuzioneEuro>
+                <AmministrazioneOEnte>
+                    <Codice>8004674017300000</Codice>
+                    <Descrizione>PREFETTURA -UFFICIO TERRITORIALE DEL GOVERNO</Descrizione>
+                </AmministrazioneOEnte>
+                <Nota>
+                    <Codice>A</Codice>
+                    <Descrizione>Le maggiorazioni presenti sull'estratto conto saranno valutate in sede di       pensione, secondo le norme vigenti e con le limitazioni eventualmente previste.</Descrizione>
+                </Nota>
+            </RigaContributiGestionePubblica>
+            <RigaContributiGestionePubblica>
+                <Dal>01/01/2007</Dal>
+                <Al>31/12/2007</Al>
+                <GestioneOFondo>Stato</GestioneOFondo>
+                <TipoDiContribuzione>Contratto a tempo indeterminato</TipoDiContribuzione>
+                <AnniContribUtiliDiritto>1</AnniContribUtiliDiritto>
+                <MesiContribUtiliDiritto>0</MesiContribUtiliDiritto>
+                <GiorniContribUtiliDiritto>0</GiorniContribUtiliDiritto>
+                <AnniContribUtiliMisura>1</AnniContribUtiliMisura>
+                <MesiContribUtiliMisura>0</MesiContribUtiliMisura>
+                <GiorniContribUtiliMisura>0.00</GiorniContribUtiliMisura>
+                <Maggiorazione>
+                    <Codice>22</Codice>
+                    <Descrizione>Servizio di istituto con percezione dell'indennita' - L. 284/77, art.3 (1/5)</Descrizione>
+                </Maggiorazione>
+                <RetribuzioneEuro>34.706,95</RetribuzioneEuro>
+                <AmministrazioneOEnte>
+                    <Codice>8004674017300000</Codice>
+                    <Descrizione>PREFETTURA -UFFICIO TERRITORIALE DEL GOVERNO</Descrizione>
+                </AmministrazioneOEnte>
+                <Nota>
+                    <Codice>A</Codice>
+                    <Descrizione>Le maggiorazioni presenti sull'estratto conto saranno valutate in sede di       pensione, secondo le norme vigenti e con le limitazioni eventualmente previste.</Descrizione>
+                </Nota>
+            </RigaContributiGestionePubblica>
+            <RigaContributiGestionePubblica>
+                <Dal>01/01/2008</Dal>
+                <Al>31/12/2008</Al>
+                <GestioneOFondo>Stato</GestioneOFondo>
+                <TipoDiContribuzione>Contratto a tempo indeterminato</TipoDiContribuzione>
+                <AnniContribUtiliDiritto>1</AnniContribUtiliDiritto>
+                <MesiContribUtiliDiritto>0</MesiContribUtiliDiritto>
+                <GiorniContribUtiliDiritto>0</GiorniContribUtiliDiritto>
+                <AnniContribUtiliMisura>1</AnniContribUtiliMisura>
+                <MesiContribUtiliMisura>0</MesiContribUtiliMisura>
+                <GiorniContribUtiliMisura>0.00</GiorniContribUtiliMisura>
+                <Maggiorazione>
+                    <Codice>22</Codice>
+                    <Descrizione>Servizio di istituto con percezione dell'indennita' - L. 284/77, art.3 (1/5)</Descrizione>
+                </Maggiorazione>
+                <RetribuzioneEuro>36.195,74</RetribuzioneEuro>
+                <AmministrazioneOEnte>
+                    <Codice>8004674017300000</Codice>
+                    <Descrizione>PREFETTURA -UFFICIO TERRITORIALE DEL GOVERNO</Descrizione>
+                </AmministrazioneOEnte>
+                <Nota>
+                    <Codice>A</Codice>
+                    <Descrizione>Le maggiorazioni presenti sull'estratto conto saranno valutate in sede di       pensione, secondo le norme vigenti e con le limitazioni eventualmente previste.</Descrizione>
+                </Nota>
+            </RigaContributiGestionePubblica>
+            <RigaContributiGestionePubblica>
+                <Dal>01/01/2009</Dal>
+                <Al>31/12/2009</Al>
+                <GestioneOFondo>Stato</GestioneOFondo>
+                <TipoDiContribuzione>Contratto a tempo indeterminato</TipoDiContribuzione>
+                <AnniContribUtiliDiritto>1</AnniContribUtiliDiritto>
+                <MesiContribUtiliDiritto>0</MesiContribUtiliDiritto>
+                <GiorniContribUtiliDiritto>0</GiorniContribUtiliDiritto>
+                <AnniContribUtiliMisura>1</AnniContribUtiliMisura>
+                <MesiContribUtiliMisura>0</MesiContribUtiliMisura>
+                <GiorniContribUtiliMisura>0.00</GiorniContribUtiliMisura>
+                <Maggiorazione>
+                    <Codice>22</Codice>
+                    <Descrizione>Servizio di istituto con percezione dell'indennita' - L. 284/77, art.3 (1/5)</Descrizione>
+                </Maggiorazione>
+                <RetribuzioneEuro>37.295,81</RetribuzioneEuro>
+                <AmministrazioneOEnte>
+                    <Codice>8004674017300000</Codice>
+                    <Descrizione>PREFETTURA -UFFICIO TERRITORIALE DEL GOVERNO</Descrizione>
+                </AmministrazioneOEnte>
+                <Nota>
+                    <Codice>A</Codice>
+                    <Descrizione>Le maggiorazioni presenti sull'estratto conto saranno valutate in sede di       pensione, secondo le norme vigenti e con le limitazioni eventualmente previste.</Descrizione>
+                </Nota>
+            </RigaContributiGestionePubblica>
+            <RigaContributiGestionePubblica>
+                <Dal>01/01/2010</Dal>
+                <Al>31/12/2010</Al>
+                <GestioneOFondo>Stato</GestioneOFondo>
+                <TipoDiContribuzione>Contratto a tempo indeterminato</TipoDiContribuzione>
+                <AnniContribUtiliDiritto>1</AnniContribUtiliDiritto>
+                <MesiContribUtiliDiritto>0</MesiContribUtiliDiritto>
+                <GiorniContribUtiliDiritto>0</GiorniContribUtiliDiritto>
+                <AnniContribUtiliMisura>1</AnniContribUtiliMisura>
+                <MesiContribUtiliMisura>0</MesiContribUtiliMisura>
+                <GiorniContribUtiliMisura>0.00</GiorniContribUtiliMisura>
+                <Maggiorazione>
+                    <Codice>22</Codice>
+                    <Descrizione>Servizio di istituto con percezione dell'indennita' - L. 284/77, art.3 (1/5)</Descrizione>
+                </Maggiorazione>
+                <RetribuzioneEuro>36.486,06</RetribuzioneEuro>
+                <AmministrazioneOEnte>
+                    <Codice>8004674017300000</Codice>
+                    <Descrizione>PREFETTURA -UFFICIO TERRITORIALE DEL GOVERNO</Descrizione>
+                </AmministrazioneOEnte>
+                <Nota>
+                    <Codice>A</Codice>
+                    <Descrizione>Le maggiorazioni presenti sull'estratto conto saranno valutate in sede di       pensione, secondo le norme vigenti e con le limitazioni eventualmente previste.</Descrizione>
+                </Nota>
+            </RigaContributiGestionePubblica>
+            <RigaContributiGestionePubblica>
+                <Dal>01/01/2011</Dal>
+                <Al>31/12/2011</Al>
+                <GestioneOFondo>Stato</GestioneOFondo>
+                <TipoDiContribuzione>Contratto a tempo indeterminato</TipoDiContribuzione>
+                <AnniContribUtiliDiritto>1</AnniContribUtiliDiritto>
+                <MesiContribUtiliDiritto>0</MesiContribUtiliDiritto>
+                <GiorniContribUtiliDiritto>0</GiorniContribUtiliDiritto>
+                <AnniContribUtiliMisura>1</AnniContribUtiliMisura>
+                <MesiContribUtiliMisura>0</MesiContribUtiliMisura>
+                <GiorniContribUtiliMisura>0.00</GiorniContribUtiliMisura>
+                <Maggiorazione>
+                    <Codice>22</Codice>
+                    <Descrizione>Servizio di istituto con percezione dell'indennita' - L. 284/77, art.3 (1/5)</Descrizione>
+                </Maggiorazione>
+                <RetribuzioneEuro>34.614,37</RetribuzioneEuro>
+                <AmministrazioneOEnte>
+                    <Codice>8004674017300000</Codice>
+                    <Descrizione>PREFETTURA -UFFICIO TERRITORIALE DEL GOVERNO</Descrizione>
+                </AmministrazioneOEnte>
+                <Nota>
+                    <Codice>A</Codice>
+                    <Descrizione>Le maggiorazioni presenti sull'estratto conto saranno valutate in sede di       pensione, secondo le norme vigenti e con le limitazioni eventualmente previste.</Descrizione>
+                </Nota>
+            </RigaContributiGestionePubblica>
+            <RigaContributiGestionePubblica>
+                <Dal>01/01/2012</Dal>
+                <Al>31/12/2012</Al>
+                <GestioneOFondo>Stato</GestioneOFondo>
+                <TipoDiContribuzione>Contratto a tempo indeterminato</TipoDiContribuzione>
+                <AnniContribUtiliDiritto>1</AnniContribUtiliDiritto>
+                <MesiContribUtiliDiritto>0</MesiContribUtiliDiritto>
+                <GiorniContribUtiliDiritto>0</GiorniContribUtiliDiritto>
+                <AnniContribUtiliMisura>1</AnniContribUtiliMisura>
+                <MesiContribUtiliMisura>0</MesiContribUtiliMisura>
+                <GiorniContribUtiliMisura>0.00</GiorniContribUtiliMisura>
+                <Maggiorazione>
+                    <Codice>22</Codice>
+                    <Descrizione>Servizio di istituto con percezione dell'indennita' - L. 284/77, art.3 (1/5)</Descrizione>
+                </Maggiorazione>
+                <RetribuzioneEuro>33.661,73</RetribuzioneEuro>
+                <AmministrazioneOEnte>
+                    <Codice>8004674017300000</Codice>
+                    <Descrizione>PREFETTURA -UFFICIO TERRITORIALE DEL GOVERNO</Descrizione>
+                </AmministrazioneOEnte>
+                <Nota>
+                    <Codice>A</Codice>
+                    <Descrizione>Le maggiorazioni presenti sull'estratto conto saranno valutate in sede di       pensione, secondo le norme vigenti e con le limitazioni eventualmente previste.</Descrizione>
+                </Nota>
+            </RigaContributiGestionePubblica>
+            <RigaContributiGestionePubblica>
+                <Dal>01/01/2013</Dal>
+                <Al>31/12/2013</Al>
+                <GestioneOFondo>Stato</GestioneOFondo>
+                <TipoDiContribuzione>Contratto a tempo indeterminato</TipoDiContribuzione>
+                <AnniContribUtiliDiritto>1</AnniContribUtiliDiritto>
+                <MesiContribUtiliDiritto>0</MesiContribUtiliDiritto>
+                <GiorniContribUtiliDiritto>0</GiorniContribUtiliDiritto>
+                <AnniContribUtiliMisura>1</AnniContribUtiliMisura>
+                <MesiContribUtiliMisura>0</MesiContribUtiliMisura>
+                <GiorniContribUtiliMisura>0.00</GiorniContribUtiliMisura>
+                <Maggiorazione>
+                    <Codice>22</Codice>
+                    <Descrizione>Servizio di istituto con percezione dell'indennita' - L. 284/77, art.3 (1/5)</Descrizione>
+                </Maggiorazione>
+                <RetribuzioneEuro>36.619,24</RetribuzioneEuro>
+                <AmministrazioneOEnte>
+                    <Codice>8004674017300000</Codice>
+                    <Descrizione>PREFETTURA -UFFICIO TERRITORIALE DEL GOVERNO</Descrizione>
+                </AmministrazioneOEnte>
+                <Nota>
+                    <Codice>A</Codice>
+                    <Descrizione>Le maggiorazioni presenti sull'estratto conto saranno valutate in sede di       pensione, secondo le norme vigenti e con le limitazioni eventualmente previste.</Descrizione>
+                </Nota>
+            </RigaContributiGestionePubblica>
+            <RigaContributiGestionePubblica>
+                <Dal>01/01/2014</Dal>
+                <Al>31/12/2014</Al>
+                <GestioneOFondo>Stato</GestioneOFondo>
+                <TipoDiContribuzione>Contratto a tempo indeterminato</TipoDiContribuzione>
+                <AnniContribUtiliDiritto>1</AnniContribUtiliDiritto>
+                <MesiContribUtiliDiritto>0</MesiContribUtiliDiritto>
+                <GiorniContribUtiliDiritto>0</GiorniContribUtiliDiritto>
+                <AnniContribUtiliMisura>1</AnniContribUtiliMisura>
+                <MesiContribUtiliMisura>0</MesiContribUtiliMisura>
+                <GiorniContribUtiliMisura>0.00</GiorniContribUtiliMisura>
+                <Maggiorazione>
+                    <Codice>22</Codice>
+                    <Descrizione>Servizio di istituto con percezione dell'indennita' - L. 284/77, art.3 (1/5)</Descrizione>
+                </Maggiorazione>
+                <RetribuzioneEuro>35.034,92</RetribuzioneEuro>
+                <AmministrazioneOEnte>
+                    <Codice>8004674017300000</Codice>
+                    <Descrizione>PREFETTURA -UFFICIO TERRITORIALE DEL GOVERNO</Descrizione>
+                </AmministrazioneOEnte>
+                <Nota>
+                    <Codice>A</Codice>
+                    <Descrizione>Le maggiorazioni presenti sull'estratto conto saranno valutate in sede di       pensione, secondo le norme vigenti e con le limitazioni eventualmente previste.</Descrizione>
+                </Nota>
+            </RigaContributiGestionePubblica>
+            <RigaContributiGestionePubblica>
+                <Dal>01/01/2015</Dal>
+                <Al>31/12/2015</Al>
+                <GestioneOFondo>Stato</GestioneOFondo>
+                <TipoDiContribuzione>Contratto a tempo indeterminato</TipoDiContribuzione>
+                <AnniContribUtiliDiritto>1</AnniContribUtiliDiritto>
+                <MesiContribUtiliDiritto>0</MesiContribUtiliDiritto>
+                <GiorniContribUtiliDiritto>0</GiorniContribUtiliDiritto>
+                <AnniContribUtiliMisura>1</AnniContribUtiliMisura>
+                <MesiContribUtiliMisura>0</MesiContribUtiliMisura>
+                <GiorniContribUtiliMisura>0.00</GiorniContribUtiliMisura>
+                <RetribuzioneEuro>37.889,97</RetribuzioneEuro>
+                <AmministrazioneOEnte>
+                    <Codice>8020223058900000</Codice>
+                    <Descrizione>MINISTERO INTERNO DIPARTIMENTO DELLA PUBBLIC</Descrizione>
+                </AmministrazioneOEnte>
+            </RigaContributiGestionePubblica>
+            <RigaContributiGestionePubblica>
+                <Dal>01/01/2016</Dal>
+                <Al>31/12/2016</Al>
+                <GestioneOFondo>Stato</GestioneOFondo>
+                <TipoDiContribuzione>Contratto a tempo indeterminato</TipoDiContribuzione>
+                <AnniContribUtiliDiritto>1</AnniContribUtiliDiritto>
+                <MesiContribUtiliDiritto>0</MesiContribUtiliDiritto>
+                <GiorniContribUtiliDiritto>0</GiorniContribUtiliDiritto>
+                <AnniContribUtiliMisura>1</AnniContribUtiliMisura>
+                <MesiContribUtiliMisura>0</MesiContribUtiliMisura>
+                <GiorniContribUtiliMisura>0.00</GiorniContribUtiliMisura>
+                <RetribuzioneEuro>37.489,14</RetribuzioneEuro>
+                <AmministrazioneOEnte>
+                    <Codice>8020223058900000</Codice>
+                    <Descrizione>MINISTERO INTERNO DIPARTIMENTO DELLA PUBBLIC</Descrizione>
+                </AmministrazioneOEnte>
+            </RigaContributiGestionePubblica>
+            <RigaContributiGestionePubblica>
+                <Dal>01/01/2017</Dal>
+                <Al>31/12/2017</Al>
+                <GestioneOFondo>Stato</GestioneOFondo>
+                <TipoDiContribuzione>Contratto a tempo indeterminato</TipoDiContribuzione>
+                <AnniContribUtiliDiritto>1</AnniContribUtiliDiritto>
+                <MesiContribUtiliDiritto>0</MesiContribUtiliDiritto>
+                <GiorniContribUtiliDiritto>0</GiorniContribUtiliDiritto>
+                <AnniContribUtiliMisura>1</AnniContribUtiliMisura>
+                <MesiContribUtiliMisura>0</MesiContribUtiliMisura>
+                <GiorniContribUtiliMisura>0.00</GiorniContribUtiliMisura>
+                <RetribuzioneEuro>38.899,88</RetribuzioneEuro>
+                <AmministrazioneOEnte>
+                    <Codice>8020223058900000</Codice>
+                    <Descrizione>MINISTERO INTERNO DIPARTIMENTO DELLA PUBBLIC</Descrizione>
+                </AmministrazioneOEnte>
+            </RigaContributiGestionePubblica>
+            <RigaContributiGestionePubblica>
+                <Dal>01/01/2018</Dal>
+                <Al>31/12/2018</Al>
+                <GestioneOFondo>Stato</GestioneOFondo>
+                <TipoDiContribuzione>Contratto a tempo indeterminato</TipoDiContribuzione>
+                <AnniContribUtiliDiritto>1</AnniContribUtiliDiritto>
+                <MesiContribUtiliDiritto>0</MesiContribUtiliDiritto>
+                <GiorniContribUtiliDiritto>0</GiorniContribUtiliDiritto>
+                <AnniContribUtiliMisura>1</AnniContribUtiliMisura>
+                <MesiContribUtiliMisura>0</MesiContribUtiliMisura>
+                <GiorniContribUtiliMisura>0.00</GiorniContribUtiliMisura>
+                <RetribuzioneEuro>41.077,80</RetribuzioneEuro>
+                <AmministrazioneOEnte>
+                    <Codice>8020223058900000</Codice>
+                    <Descrizione>MINISTERO INTERNO DIPARTIMENTO DELLA PUBBLIC</Descrizione>
+                </AmministrazioneOEnte>
+            </RigaContributiGestionePubblica>
+            <RigaContributiGestionePubblica>
+                <Dal>01/01/2019</Dal>
+                <Al>31/12/2019</Al>
+                <GestioneOFondo>Stato</GestioneOFondo>
+                <TipoDiContribuzione>Contratto a tempo indeterminato</TipoDiContribuzione>
+                <AnniContribUtiliDiritto>1</AnniContribUtiliDiritto>
+                <MesiContribUtiliDiritto>0</MesiContribUtiliDiritto>
+                <GiorniContribUtiliDiritto>0</GiorniContribUtiliDiritto>
+                <AnniContribUtiliMisura>1</AnniContribUtiliMisura>
+                <MesiContribUtiliMisura>0</MesiContribUtiliMisura>
+                <GiorniContribUtiliMisura>0.00</GiorniContribUtiliMisura>
+                <RetribuzioneEuro>40.972,71</RetribuzioneEuro>
+                <AmministrazioneOEnte>
+                    <Codice>8020223058900000</Codice>
+                    <Descrizione>MINISTERO INTERNO DIPARTIMENTO DELLA PUBBLIC</Descrizione>
+                </AmministrazioneOEnte>
+            </RigaContributiGestionePubblica>
+            <RigaContributiGestionePubblica>
+                <Dal>01/01/2020</Dal>
+                <Al>31/12/2020</Al>
+                <GestioneOFondo>Stato</GestioneOFondo>
+                <TipoDiContribuzione>Contratto a tempo indeterminato</TipoDiContribuzione>
+                <AnniContribUtiliDiritto>1</AnniContribUtiliDiritto>
+                <MesiContribUtiliDiritto>0</MesiContribUtiliDiritto>
+                <GiorniContribUtiliDiritto>0</GiorniContribUtiliDiritto>
+                <AnniContribUtiliMisura>1</AnniContribUtiliMisura>
+                <MesiContribUtiliMisura>0</MesiContribUtiliMisura>
+                <GiorniContribUtiliMisura>0.00</GiorniContribUtiliMisura>
+                <RetribuzioneEuro>43.951,39</RetribuzioneEuro>
+                <AmministrazioneOEnte>
+                    <Codice>8020223058900000</Codice>
+                    <Descrizione>MINISTERO INTERNO DIPARTIMENTO DELLA PUBBLIC</Descrizione>
+                </AmministrazioneOEnte>
+            </RigaContributiGestionePubblica>
+            <RigaContributiGestionePubblica>
+                <Dal>01/01/2021</Dal>
+                <Al>31/12/2021</Al>
+                <GestioneOFondo>Stato</GestioneOFondo>
+                <TipoDiContribuzione>Contratto a tempo indeterminato</TipoDiContribuzione>
+                <AnniContribUtiliDiritto>1</AnniContribUtiliDiritto>
+                <MesiContribUtiliDiritto>0</MesiContribUtiliDiritto>
+                <GiorniContribUtiliDiritto>0</GiorniContribUtiliDiritto>
+                <AnniContribUtiliMisura>1</AnniContribUtiliMisura>
+                <MesiContribUtiliMisura>0</MesiContribUtiliMisura>
+                <GiorniContribUtiliMisura>0.00</GiorniContribUtiliMisura>
+                <RetribuzioneEuro>46.177,37</RetribuzioneEuro>
+                <AmministrazioneOEnte>
+                    <Codice>8020223058900000</Codice>
+                    <Descrizione>MINISTERO INTERNO DIPARTIMENTO DELLA PUBBLIC</Descrizione>
+                </AmministrazioneOEnte>
+            </RigaContributiGestionePubblica>
+            <RigaContributiGestionePubblica>
+                <Dal>01/01/2022</Dal>
+                <Al>31/12/2022</Al>
+                <GestioneOFondo>Stato</GestioneOFondo>
+                <TipoDiContribuzione>Contratto a tempo indeterminato</TipoDiContribuzione>
+                <AnniContribUtiliDiritto>1</AnniContribUtiliDiritto>
+                <MesiContribUtiliDiritto>0</MesiContribUtiliDiritto>
+                <GiorniContribUtiliDiritto>0</GiorniContribUtiliDiritto>
+                <AnniContribUtiliMisura>1</AnniContribUtiliMisura>
+                <MesiContribUtiliMisura>0</MesiContribUtiliMisura>
+                <GiorniContribUtiliMisura>0.00</GiorniContribUtiliMisura>
+                <RetribuzioneEuro>51.514,47</RetribuzioneEuro>
+                <AmministrazioneOEnte>
+                    <Codice>8020223058900000</Codice>
+                    <Descrizione>MINISTERO INTERNO DIPARTIMENTO DELLA PUBBLIC</Descrizione>
+                </AmministrazioneOEnte>
+            </RigaContributiGestionePubblica>
+            <RigaContributiGestionePubblica>
+                <Dal>01/01/2023</Dal>
+                <Al>31/12/2023</Al>
+                <GestioneOFondo>Stato</GestioneOFondo>
+                <TipoDiContribuzione>Contratto a tempo indeterminato</TipoDiContribuzione>
+                <AnniContribUtiliDiritto>1</AnniContribUtiliDiritto>
+                <MesiContribUtiliDiritto>0</MesiContribUtiliDiritto>
+                <GiorniContribUtiliDiritto>0</GiorniContribUtiliDiritto>
+                <AnniContribUtiliMisura>1</AnniContribUtiliMisura>
+                <MesiContribUtiliMisura>0</MesiContribUtiliMisura>
+                <GiorniContribUtiliMisura>0.00</GiorniContribUtiliMisura>
+                <RetribuzioneEuro>49.681,71</RetribuzioneEuro>
+                <AmministrazioneOEnte>
+                    <Codice>8020223058900000</Codice>
+                    <Descrizione>MINISTERO INTERNO DIPARTIMENTO DELLA PUBBLIC</Descrizione>
+                </AmministrazioneOEnte>
+            </RigaContributiGestionePubblica>
+            <RigaContributiGestionePubblica>
+                <Dal>01/01/2024</Dal>
+                <Al>31/12/2024</Al>
+                <GestioneOFondo>Stato</GestioneOFondo>
+                <TipoDiContribuzione>Contratto a tempo indeterminato</TipoDiContribuzione>
+                <AnniContribUtiliDiritto>1</AnniContribUtiliDiritto>
+                <MesiContribUtiliDiritto>0</MesiContribUtiliDiritto>
+                <GiorniContribUtiliDiritto>0</GiorniContribUtiliDiritto>
+                <AnniContribUtiliMisura>1</AnniContribUtiliMisura>
+                <MesiContribUtiliMisura>0</MesiContribUtiliMisura>
+                <GiorniContribUtiliMisura>0.00</GiorniContribUtiliMisura>
+                <RetribuzioneEuro>49.769,27</RetribuzioneEuro>
+                <AmministrazioneOEnte>
+                    <Codice>8020223058900000</Codice>
+                    <Descrizione>MINISTERO INTERNO DIPARTIMENTO DELLA PUBBLIC</Descrizione>
+                </AmministrazioneOEnte>
+            </RigaContributiGestionePubblica>
+            <RigaContributiGestionePubblica>
+                <Dal>01/01/2025</Dal>
+                <Al>31/12/2025</Al>
+                <GestioneOFondo>Stato</GestioneOFondo>
+                <TipoDiContribuzione>Contratto a tempo indeterminato</TipoDiContribuzione>
+                <AnniContribUtiliDiritto>1</AnniContribUtiliDiritto>
+                <MesiContribUtiliDiritto>0</MesiContribUtiliDiritto>
+                <GiorniContribUtiliDiritto>0</GiorniContribUtiliDiritto>
+                <AnniContribUtiliMisura>1</AnniContribUtiliMisura>
+                <MesiContribUtiliMisura>0</MesiContribUtiliMisura>
+                <GiorniContribUtiliMisura>0.00</GiorniContribUtiliMisura>
+                <RetribuzioneEuro>54.523,98</RetribuzioneEuro>
+                <AmministrazioneOEnte>
+                    <Codice>8020223058900000</Codice>
+                    <Descrizione>MINISTERO INTERNO DIPARTIMENTO DELLA PUBBLIC</Descrizione>
+                </AmministrazioneOEnte>
+            </RigaContributiGestionePubblica>
+            <RigaContributiGestionePubblica>
+                <Dal>01/01/2026</Dal>
+                <Al>31/01/2026</Al>
+                <GestioneOFondo>Stato</GestioneOFondo>
+                <TipoDiContribuzione>Contratto a tempo indeterminato</TipoDiContribuzione>
+                <AnniContribUtiliDiritto>0</AnniContribUtiliDiritto>
+                <MesiContribUtiliDiritto>1</MesiContribUtiliDiritto>
+                <GiorniContribUtiliDiritto>0</GiorniContribUtiliDiritto>
+                <AnniContribUtiliMisura>0</AnniContribUtiliMisura>
+                <MesiContribUtiliMisura>1</MesiContribUtiliMisura>
+                <GiorniContribUtiliMisura>0.00</GiorniContribUtiliMisura>
+                <RetribuzioneEuro>3.304,42</RetribuzioneEuro>
+                <AmministrazioneOEnte>
+                    <Codice>8020223058900000</Codice>
+                    <Descrizione>MINISTERO INTERNO DIPARTIMENTO DELLA PUBBLIC</Descrizione>
+                </AmministrazioneOEnte>
+            </RigaContributiGestionePubblica>
+        </ContributiGestionePubblica>
+        <AggiornamentoGP>
+            <DataEmissioneEstrattoGP>16/04/2026</DataEmissioneEstrattoGP>
+        </AggiornamentoGP>
+        <Avvertenze>Il presente estratto conto ha carattere provvisorio ed informativo ed elenca i periodi contributivi attualmente registrati negli archivi dell'INPS. Non ha valore certificativo.</Avvertenze>
+        <Avvertenze>Laddove fosse necessario verificare il raggiungimento dei requisiti per la pensione occorre rivolgersi agli Uffici dell'INPS o ad un Ente di patronato.</Avvertenze>
+        <Avvertenze>La presenza di Note a margine di un periodo esposto sull'Estratto Conto e'  indice  di  criticita'  sulle  informazioni  presenti  nella  banca  dati dell'Istituto.</Avvertenze>
+        <Avvertenze>Si suggerisce pertanto di provvedere ad effettuare una richiesta di variazione alla sua Posizione Assicurativa attraverso le apposite funzionalita' on-line (o rivolgendosi ad un patronato) al fine di velocizzarne la risoluzione. Ciascuna richiesta di variazione potra'  essere corredata da documentazione a supporto. Le funzionalita' web per le richieste di variazione alla Posizione Assicurativa sono disponibili nei servizi al cittadino del portale INPS.</Avvertenze>
+        <Avvertenze>Per gli iscritti con periodi ante 1993, non vengono evidenziati i dati relativi alle retribuzioni per tali periodi. La loro mancanza o la loro effettiva consistenza non deve essere segnalata in richiesta di variazione</Avvertenze>
+    </GestionePubblica>
+</EstrattoConto>

@@ -1,0 +1,62 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home" text="Indietro"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Scelta Simulazione</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <form [formGroup]="sceltaForm" (ngSubmit)="onContinua()" class="form-container">
+    <ion-radio-group formControlName="tipoSimulazione" class="radio-group-container">
+      <ion-item class="radio-item" lines="none">
+        <ion-radio value="anzianita" labelPlacement="end">
+          <div class="radio-label">
+            Pensione con il solo requisito di anzianità contributiva/servizio utile
+          </div>
+        </ion-radio>
+      </ion-item>
+
+      <ion-item class="radio-item" lines="none">
+        <ion-radio value="eta_anzianita" labelPlacement="end">
+          <div class="radio-label">Pensione con requisito età + anzianità</div>
+        </ion-radio>
+      </ion-item>
+
+      <ion-item class="radio-item" lines="none">
+        <ion-radio value="limiti_eta" labelPlacement="end">
+          <div class="radio-label">Pensione per limiti di età ordinamentali (60, 63 o 65 anni)</div>
+        </ion-radio>
+      </ion-item>
+    </ion-radio-group>
+
+    @if (sceltaForm.get('tipoSimulazione')?.value === 'limiti_eta') {
+    <ion-item class="input-item fade-in" lines="none">
+      <ion-label position="stacked">Limite ordinamentale applicabile</ion-label>
+      <ion-select
+        formControlName="limiteOrdinamentale"
+        interface="action-sheet"
+        placeholder="Seleziona età"
+      >
+        <ion-select-option value="60">60 anni</ion-select-option>
+        <ion-select-option value="63">63 anni</ion-select-option>
+        <ion-select-option value="65">65 anni</ion-select-option>
+      </ion-select>
+    </ion-item>
+    }
+
+    <div class="actions-container">
+      <ion-button
+        expand="block"
+        type="submit"
+        shape="round"
+        color="primary"
+        class="ion-margin-top action-btn"
+      >
+        Continua
+        <ion-icon slot="end" name="arrow-forward-outline"></ion-icon>
+      </ion-button>
+    </div>
+  </form>
+</ion-content>

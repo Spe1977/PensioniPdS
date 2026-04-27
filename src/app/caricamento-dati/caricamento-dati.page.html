@@ -1,0 +1,229 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/scelta-pensione" text="Indietro"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Dati e Documenti</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <form [formGroup]="filesForm" (ngSubmit)="onCalcola()" class="form-container">
+    <!-- Sezione Documento INPS -->
+    <div class="upload-section">
+      <h3 class="section-title">Estratto Contributivo INPS</h3>
+      <div class="upload-box" (click)="inpsInput.click()">
+        <ion-icon name="cloud-upload-outline" class="upload-icon"></ion-icon>
+        <p class="upload-text">{{ fileNames.inps || 'Carica file XML o PDF' }}</p>
+        <input
+          #inpsInput
+          type="file"
+          accept=".xml,.pdf"
+          hidden
+          (change)="onFileSelected($event, 'inps')"
+        />
+      </div>
+    </div>
+
+    <!-- Sezione Dati Manuali (Sotto INPS) -->
+    <div class="manual-data-section">
+      <div class="manual-data-header">
+        <h4 class="section-subtitle">Contributi futuri ipotetici</h4>
+        <ion-button fill="clear" size="small" (click)="aggiungiContributoFuturo()">
+          <ion-icon slot="start" name="add-outline"></ion-icon>
+          Aggiungi Anno
+        </ion-button>
+      </div>
+      <p class="helper-text">
+        Inserisci dati ipotetici per gli anni non coperti dall'estratto conto o da correggere
+        manualmente.
+      </p>
+
+      <div formArrayName="contributiFuturi" class="contributi-list">
+        @for (ctrl of contributiFuturi.controls; track $index) {
+        <ion-grid class="contributo-row" [formGroupName]="$index">
+          <ion-row class="ion-align-items-center">
+            <ion-col size="3">
+              <ion-input
+                type="number"
+                formControlName="anno"
+                placeholder="Anno"
+                aria-label="Anno"
+                class="custom-input"
+              ></ion-input>
+            </ion-col>
+            <ion-col size="4">
+              <ion-input
+                type="number"
+                formControlName="importo"
+                placeholder="Contributi €"
+                aria-label="Importo contributi"
+                class="custom-input"
+              ></ion-input>
+            </ion-col>
+            <ion-col size="3">
+              <ion-input
+                type="number"
+                formControlName="tassoRivalutazione"
+                placeholder="Tasso %"
+                aria-label="Tasso rivalutazione"
+                class="custom-input"
+              ></ion-input>
+            </ion-col>
+            <ion-col size="2" class="ion-text-center">
+              <ion-button fill="clear" color="danger" (click)="rimuoviContributoFuturo($index)">
+                <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+        }
+      </div>
+    </div>
+
+    <!-- Sezione Certificazione Unica -->
+    <div class="upload-section ion-margin-top">
+      <h3 class="section-title">Certificazione Unica (CU)</h3>
+      <div class="upload-box" (click)="cuInput.click()">
+        <ion-icon name="document-text-outline" class="upload-icon"></ion-icon>
+        <p class="upload-text">{{ fileNames.cu || 'Carica file PDF' }}</p>
+        <input #cuInput type="file" accept=".pdf" hidden (change)="onFileSelected($event, 'cu')" />
+      </div>
+    </div>
+
+    <!-- Sezione Busta Paga -->
+    <div class="upload-section">
+      <h3 class="section-title">Ultima Busta Paga</h3>
+      <div class="upload-box" (click)="bustaPagaInput.click()">
+        <ion-icon name="document-text-outline" class="upload-icon"></ion-icon>
+        <p class="upload-text">{{ fileNames.bustaPaga || 'Carica file PDF' }}</p>
+        <input
+          #bustaPagaInput
+          type="file"
+          accept=".pdf"
+          hidden
+          (change)="onFileSelected($event, 'bustaPaga')"
+        />
+      </div>
+    </div>
+
+    <!-- Sezione calcolo netto Fase 4.1 -->
+    <div class="manual-data-section fiscal-data-section">
+      <h3 class="section-title">Calcolo netto anzianità</h3>
+
+      <ion-grid class="fiscal-grid">
+        <ion-row>
+          <ion-col size="12">
+            <ion-select
+              formControlName="scenarioPensione"
+              label="Scenario"
+              label-placement="stacked"
+              interface="popover"
+              class="custom-input"
+            >
+              <ion-select-option value="retributivo_pro_rata">
+                A - Retributivo pro-rata
+              </ion-select-option>
+              <ion-select-option value="misto">B - Misto</ion-select-option>
+              <ion-select-option value="contributivo_puro">C - Contributivo puro</ion-select-option>
+            </ion-select>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="12" size-md="6">
+            <ion-input
+              type="number"
+              formControlName="quotaRetributivaAnnua"
+              label="Quota retributiva annua €"
+              label-placement="stacked"
+              class="custom-input"
+            ></ion-input>
+          </ion-col>
+          <ion-col size="12" size-md="6">
+            <ion-input
+              type="number"
+              formControlName="montanteContributivo"
+              label="Montante contributivo €"
+              label-placement="stacked"
+              class="custom-input"
+            ></ion-input>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="12" size-md="6">
+            <ion-input
+              type="number"
+              formControlName="coefficienteTrasformazione"
+              label="Coefficiente trasformazione %"
+              label-placement="stacked"
+              class="custom-input"
+            ></ion-input>
+          </ion-col>
+          <ion-col size="12" size-md="6">
+            <ion-input
+              type="number"
+              formControlName="ultimoImponibileAnnuo"
+              label="Ultimo imponibile annuo €"
+              label-placement="stacked"
+              class="custom-input"
+            ></ion-input>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="12" size-md="4">
+            <ion-input
+              type="number"
+              formControlName="detrazioniAnnue"
+              label="Detrazioni €"
+              label-placement="stacked"
+              class="custom-input"
+            ></ion-input>
+          </ion-col>
+          <ion-col size="12" size-md="4">
+            <ion-input
+              type="number"
+              formControlName="addizionaleRegionalePercentuale"
+              label="Add. regionale %"
+              label-placement="stacked"
+              class="custom-input"
+            ></ion-input>
+          </ion-col>
+          <ion-col size="12" size-md="4">
+            <ion-input
+              type="number"
+              formControlName="addizionaleComunalePercentuale"
+              label="Add. comunale %"
+              label-placement="stacked"
+              class="custom-input"
+            ></ion-input>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="12">
+            <ion-input
+              type="number"
+              formControlName="carichiFamiliariDetrazioniAnnue"
+              label="Detrazioni carichi familiari €"
+              label-placement="stacked"
+              class="custom-input"
+            ></ion-input>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+
+    <!-- Pulsante Calcola -->
+    <div class="actions-container">
+      <ion-button
+        expand="block"
+        type="submit"
+        shape="round"
+        color="primary"
+        class="ion-margin-top action-btn"
+      >
+        <ion-icon slot="start" name="calculator-outline"></ion-icon>
+        Calcola Pensione
+      </ion-button>
+    </div>
+  </form>
+</ion-content>

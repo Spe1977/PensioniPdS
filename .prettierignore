@@ -1,0 +1,13 @@
+# Ignore artifacts:
+dist
+www
+node_modules
+coverage
+.angular
+playwright-report
+test-results
+.vscode
+
+# Ignore files:
+*.log
+package-lock.json

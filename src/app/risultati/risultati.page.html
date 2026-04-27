@@ -1,0 +1,154 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/caricamento-dati"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Risultato Simulazione</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  @if (hasRisultato()) {
+  <div class="results-container">
+    <!-- Data di decorrenza pensione -->
+    <ion-card class="primary-card">
+      <ion-card-header>
+        <ion-card-title class="ion-text-center">Data Decorrenza Pensione</ion-card-title>
+      </ion-card-header>
+      <ion-card-content class="ion-text-center">
+        <ion-text color="primary">
+          <h1 class="date-text">{{ dataDecorrenza() | date:'dd MMMM yyyy':'':'it-IT' }}</h1>
+        </ion-text>
+        <p class="info-subtitle">
+          Diritto maturato il {{ dataMaturazione() | date:'dd/MM/yyyy':'':'it-IT' }} + {{
+          requisitiApplicati()?.finestraMobileMesi }} mesi di finestra mobile
+        </p>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Dettaglio Servizio -->
+    <ion-card class="secondary-card">
+      <ion-card-header>
+        <ion-card-title class="ion-text-center">Dettaglio Servizio</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="detail-row">
+          <span class="detail-label">Servizio effettivo</span>
+          <span class="detail-value">{{ formatDurata(servizioEffettivo()) }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Maggiorazione 1/5</span>
+          <span class="detail-value">{{ formatDurata(maggiorazione()) }}</span>
+        </div>
+        <div class="detail-row total-row">
+          <span class="detail-label">Servizio utile totale</span>
+          <span class="detail-value">{{ formatDurata(servizioUtile()) }}</span>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Requisiti Applicati -->
+    <ion-card class="info-card">
+      <ion-card-header>
+        <ion-card-title class="ion-text-center">Requisiti Applicati</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        @if (etaRichiesta()) {
+        <div class="detail-row">
+          <span class="detail-label">Età richiesta</span>
+          <span class="detail-value">{{ formatDurata(etaRichiesta()) }}</span>
+        </div>
+        }
+        <div class="detail-row">
+          <span class="detail-label">Anzianità richiesta</span>
+          <span class="detail-value">
+            {{ requisitiApplicati()?.anniRichiesti }} anni @if (requisitiApplicati()?.mesiExtra) { e
+            {{ requisitiApplicati()?.mesiExtra }} mesi }
+          </span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Finestra mobile</span>
+          <span class="detail-value">{{ requisitiApplicati()?.finestraMobileMesi }} mesi</span>
+        </div>
+        @if (requisitiApplicati()?.mesiExtra) {
+        <p class="disclaimer">
+          Adeguamento servizio utile: +{{ requisitiApplicati()?.mesiExtra }} {{
+          requisitiApplicati()?.mesiExtra === 1 ? 'mese' : 'mesi' }} (anno {{
+          requisitiApplicati()?.anno }})
+        </p>
+        } @else if (requisitiApplicati()?.etaMesiExtra) {
+        <p class="disclaimer">
+          Adeguamento speranza di vita: +{{ requisitiApplicati()?.etaMesiExtra }} {{
+          requisitiApplicati()?.etaMesiExtra === 1 ? 'mese' : 'mesi' }} (anno {{
+          requisitiApplicati()?.anno }})
+        </p>
+        }
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Avviso post-2028 -->
+    @if (avviso()) {
+    <ion-card class="warning-card">
+      <ion-card-content>
+        <ion-text color="warning">
+          <p class="avviso-text">⚠️ {{ avviso() }}</p>
+        </ion-text>
+      </ion-card-content>
+    </ion-card>
+    }
+
+    <!-- Importo Pensione -->
+    <ion-card class="secondary-card">
+      <ion-card-header>
+        <ion-card-title class="ion-text-center">Pensione Netta Mensile</ion-card-title>
+      </ion-card-header>
+      <ion-card-content class="ion-text-center">
+        @if (pensioneNetta()) {
+        <ion-text color="primary">
+          <h2 class="amount-text">{{ formatEuro(pensioneNetta()?.pensioneNettaMensile) }}</h2>
+        </ion-text>
+        <p class="info-subtitle">
+          {{ scenarioLabel(pensioneNetta()?.scenario) }} · netto annuo {{
+          formatEuro(pensioneNetta()?.pensioneNettaAnnua) }}
+        </p>
+        <div class="detail-row">
+          <span class="detail-label">Lordo annuo</span>
+          <span class="detail-value">{{ formatEuro(pensioneNetta()?.pensioneLordaAnnua) }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">IRPEF lorda</span>
+          <span class="detail-value">{{ formatEuro(pensioneNetta()?.irpefLordaAnnua) }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Detrazioni</span>
+          <span class="detail-value">{{ formatEuro(pensioneNetta()?.detrazioniAnnue) }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Addizionali</span>
+          <span class="detail-value">{{ formatEuro(pensioneNetta()?.addizionaliAnnue) }}</span>
+        </div>
+        <p class="disclaimer">{{ pensioneNetta()?.noteBenefici?.[0] }}</p>
+        } @else {
+        <ion-text color="medium">
+          <p class="placeholder-text">Calcolo importo disponibile dalla Fase 4</p>
+        </ion-text>
+        }
+      </ion-card-content>
+    </ion-card>
+
+    <div class="action-section">
+      <ion-button expand="block" shape="round" class="download-btn" (click)="scaricaRisultati()">
+        <ion-icon slot="start" name="download-outline"></ion-icon>
+        Scarica Risultati (.md / PDF)
+      </ion-button>
+    </div>
+  </div>
+  } @else {
+  <div class="no-results">
+    <ion-text color="medium">
+      <h2>Nessun risultato disponibile</h2>
+      <p>Inserisci i dati e avvia la simulazione dalla Home.</p>
+    </ion-text>
+  </div>
+  }
+</ion-content>
