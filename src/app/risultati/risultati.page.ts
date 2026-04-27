@@ -45,6 +45,7 @@ import { Durata, ScenarioCalcoloPensione } from '../services/pension-engine.mode
 })
 export class RisultatiPage {
   private state = inject(SimulationStateService);
+  private datePipe = inject(DatePipe);
 
   /** Risultato dal motore di calcolo */
   risultato = this.state.risultato;
@@ -100,7 +101,53 @@ export class RisultatiPage {
   }
 
   scaricaRisultati() {
-    console.log('Scaricamento risultati in corso...');
-    alert('Funzionalità di download (.md/.pdf) in arrivo con il motore di calcolo definitivo.');
+    const res = this.risultato();
+    if (!res) return;
+
+    const dtMaturazione = this.datePipe.transform(res.dataMaturazioneDiritto, 'dd/MM/yyyy') ?? '-';
+    const dtDecorrenza = this.datePipe.transform(res.dataDecorrenza, 'dd/MM/yyyy') ?? '-';
+    const req = res.requisitiApplicati;
+
+    let md = `# Risultati Simulazione Pensione\n\n`;
+    md += `## Date\n`;
+    md += `- **Data Maturazione Requisiti:** ${dtMaturazione}\n`;
+    md += `- **Data Decorrenza Pensione:** ${dtDecorrenza}\n`;
+    if (req) {
+      md += `- **Finestra Mobile:** ${req.finestraMobileMesi} mesi\n`;
+    }
+    
+    md += `\n## Servizio\n`;
+    md += `- **Servizio Effettivo:** ${this.formatDurata(res.servizioEffettivo)}\n`;
+    md += `- **Maggiorazione 1/5:** ${this.formatDurata(res.maggiorazione)}\n`;
+    md += `- **Servizio Utile Totale:** ${this.formatDurata(res.servizioUtile)}\n`;
+
+    if (res.pensioneNetta) {
+      const p = res.pensioneNetta;
+      md += `\n## Calcolo Pensione\n`;
+      md += `- **Scenario Calcolo:** ${this.scenarioLabel(p.scenario)}\n`;
+      md += `- **Pensione Lorda Annua:** ${this.formatEuro(p.pensioneLordaAnnua)}\n`;
+      md += `- **Pensione Lorda Mensile:** ${this.formatEuro(p.pensioneLordaMensile)}\n`;
+      md += `- **Pensione Netta Annua:** ${this.formatEuro(p.pensioneNettaAnnua)}\n`;
+      md += `- **Pensione Netta Mensile:** ${this.formatEuro(p.pensioneNettaMensile)}\n`;
+      if (p.noteBenefici && p.noteBenefici.length > 0) {
+        md += `\n### Benefici Applicati\n`;
+        p.noteBenefici.forEach(nota => md += `- ${nota}\n`);
+      }
+    }
+
+    if (res.avviso) {
+      md += `\n## Note\n`;
+      md += `> ${res.avviso}\n`;
+    }
+
+    const blob = new Blob([md], { type: 'text/markdown;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `Risultati_Simulazione_${new Date().toISOString().split('T')[0]}.md`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
   }
 }
