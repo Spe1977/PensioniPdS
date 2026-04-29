@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import path from 'node:path';
 
 test.describe('Caricamento Dati Page (Fase 2.3)', () => {
   test.beforeEach(async ({ page }) => {
@@ -45,6 +46,20 @@ test.describe('Caricamento Dati Page (Fase 2.3)', () => {
   test('dovrebbe mostrare la sezione per il caricamento della Busta Paga', async ({ page }) => {
     await expect(page.locator('h3:has-text("Ultima Busta Paga")')).toBeVisible();
     await expect(page.locator('input[type="file"][accept=".pdf"]').nth(1)).toBeAttached();
+  });
+
+  test('dovrebbe leggere il file INPS XML reale e rilevare il sistema pensionistico', async ({
+    page,
+  }) => {
+    await page
+      .locator('input[type="file"][accept=".xml,.pdf"]')
+      .setInputFiles(path.resolve('doc/inps.xml'));
+
+    await expect(page.locator('h3:has-text("Dati letti dai documenti")')).toBeVisible();
+    await expect(page.locator('.parsed-document')).toContainText('periodi INPS');
+    await expect(page.locator('h3:has-text("Sistema pensionistico")')).toBeVisible();
+    await expect(page.locator('.system-summary')).toContainText('Contributivo puro');
+    await expect(page.locator('ion-input[formControlName="montanteContributivo"]')).toHaveCount(0);
   });
 
   test('dovrebbe navigare ai risultati al click su Calcola Pensione', async ({ page }) => {

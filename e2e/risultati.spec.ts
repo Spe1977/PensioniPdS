@@ -60,13 +60,11 @@ test.describe('Risultati Page (Fase 2.4)', () => {
     await page.getByRole('button', { name: /Calcola Pensione/i }).click();
     await expect(page).toHaveURL(/.*\/risultati/);
 
-    const downloadBtn = page.locator('ion-button', {
-      hasText: 'Scarica Risultati (.md / PDF)',
-    });
-    await expect(downloadBtn).toBeVisible();
+    await expect(page.locator('ion-button', { hasText: 'Scarica .md' })).toBeVisible();
+    await expect(page.locator('ion-button', { hasText: 'Scarica PDF' })).toBeVisible();
   });
 
-  test('dovrebbe far comparire un alert al click sul pulsante di download', async ({ page }) => {
+  test('dovrebbe scaricare i risultati in Markdown e PDF', async ({ page }) => {
     await page.goto('/');
     const dataNascita = page.locator('ion-input[formControlName="dataNascita"] input');
     const dataAssunzione = page.locator('ion-input[formControlName="dataAssunzione"] input');
@@ -81,20 +79,14 @@ test.describe('Risultati Page (Fase 2.4)', () => {
     await page.getByRole('button', { name: /Calcola Pensione/i }).click();
     await expect(page).toHaveURL(/.*\/risultati/);
 
-    const downloadBtn = page.locator('.download-btn');
-    await expect(downloadBtn).toBeVisible();
+    const markdownDownload = page.waitForEvent('download');
+    await page.locator('.download-btn').click();
+    const markdown = await markdownDownload;
+    expect(markdown.suggestedFilename()).toMatch(/Risultati_Simulazione_.*\.md/);
 
-    // Auto-accept dialogs and capture message
-    let dialogMessage = '';
-    page.on('dialog', async (dialog) => {
-      dialogMessage = dialog.message();
-      await dialog.accept();
-    });
-
-    // Use dispatchEvent to avoid Playwright blocking on alert()
-    await downloadBtn.dispatchEvent('click');
-    await page.waitForTimeout(500);
-
-    expect(dialogMessage).toContain('Funzionalità di download');
+    const pdfDownload = page.waitForEvent('download');
+    await page.locator('.download-pdf-btn').click();
+    const pdf = await pdfDownload;
+    expect(pdf.suggestedFilename()).toMatch(/Risultati_Simulazione_.*\.pdf/);
   });
 });

@@ -90,9 +90,7 @@
     @if (avviso()) {
     <ion-card class="warning-card">
       <ion-card-content>
-        <ion-text color="warning">
-          <p class="avviso-text">⚠️ {{ avviso() }}</p>
-        </ion-text>
+        <p class="avviso-text">⚠️ {{ avviso() }}</p>
       </ion-card-content>
     </ion-card>
     }
@@ -137,9 +135,24 @@
     </ion-card>
 
     <div class="action-section">
-      <ion-button expand="block" shape="round" class="download-btn" (click)="scaricaRisultati()">
+      <ion-button
+        expand="block"
+        shape="round"
+        class="download-btn"
+        (click)="scaricaRisultatiMarkdown()"
+      >
         <ion-icon slot="start" name="download-outline"></ion-icon>
-        Scarica Risultati (.md / PDF)
+        Scarica .md
+      </ion-button>
+      <ion-button
+        expand="block"
+        shape="round"
+        fill="outline"
+        class="download-pdf-btn"
+        (click)="scaricaRisultatiPdf()"
+      >
+        <ion-icon slot="start" name="download-outline"></ion-icon>
+        Scarica PDF
       </ion-button>
     </div>
   </div>

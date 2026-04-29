@@ -76,10 +76,12 @@ ion-card {
 }
 
 .warning-card {
-  --background: var(--ion-color-warning-tint);
+  --background: var(--ion-color-warning);
 
   .avviso-text {
+    color: var(--ion-color-warning-contrast);
     font-size: 0.9rem;
+    font-weight: 500;
     line-height: 1.5;
     margin: 0;
   }
@@ -91,9 +93,12 @@ ion-card {
 }
 
 .action-section {
+  display: grid;
+  gap: 12px;
   margin-top: 24px;
 
-  .download-btn {
+  .download-btn,
+  .download-pdf-btn {
     --box-shadow: 0 4px 12px rgba(var(--ion-color-primary-rgb), 0.3);
     margin: 0;
     font-weight: 600;

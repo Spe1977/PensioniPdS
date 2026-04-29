@@ -17,6 +17,9 @@ log.txt
 /.versions
 /coverage
 
+# Playwright generated reports
+/playwright-report/
+
 # Ionic
 /.ionic
 /www

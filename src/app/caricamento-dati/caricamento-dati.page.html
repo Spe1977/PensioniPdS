@@ -107,109 +107,30 @@
       </div>
     </div>
 
-    <!-- Sezione calcolo netto Fase 4.1 -->
-    <div class="manual-data-section fiscal-data-section">
-      <h3 class="section-title">Calcolo netto anzianità</h3>
+    @if (parsedDocuments.length || parsingError) {
+    <div class="manual-data-section parsed-data-section">
+      <h3 class="section-title">Dati letti dai documenti</h3>
+      @if (parsingError) {
+      <p class="helper-text error-text">{{ parsingError }}</p>
+      } @for (documento of parsedDocuments; track documento.tipo) {
+      <div class="parsed-document">
+        <h4>{{ documento.fileName }}</h4>
+        @for (riga of documento.riepilogo; track riga) {
+        <p class="helper-text">{{ riga }}</p>
+        }
+      </div>
+      }
+    </div>
+    }
 
-      <ion-grid class="fiscal-grid">
-        <ion-row>
-          <ion-col size="12">
-            <ion-select
-              formControlName="scenarioPensione"
-              label="Scenario"
-              label-placement="stacked"
-              interface="popover"
-              class="custom-input"
-            >
-              <ion-select-option value="retributivo_pro_rata">
-                A - Retributivo pro-rata
-              </ion-select-option>
-              <ion-select-option value="misto">B - Misto</ion-select-option>
-              <ion-select-option value="contributivo_puro">C - Contributivo puro</ion-select-option>
-            </ion-select>
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col size="12" size-md="6">
-            <ion-input
-              type="number"
-              formControlName="quotaRetributivaAnnua"
-              label="Quota retributiva annua €"
-              label-placement="stacked"
-              class="custom-input"
-            ></ion-input>
-          </ion-col>
-          <ion-col size="12" size-md="6">
-            <ion-input
-              type="number"
-              formControlName="montanteContributivo"
-              label="Montante contributivo €"
-              label-placement="stacked"
-              class="custom-input"
-            ></ion-input>
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col size="12" size-md="6">
-            <ion-input
-              type="number"
-              formControlName="coefficienteTrasformazione"
-              label="Coefficiente trasformazione %"
-              label-placement="stacked"
-              class="custom-input"
-            ></ion-input>
-          </ion-col>
-          <ion-col size="12" size-md="6">
-            <ion-input
-              type="number"
-              formControlName="ultimoImponibileAnnuo"
-              label="Ultimo imponibile annuo €"
-              label-placement="stacked"
-              class="custom-input"
-            ></ion-input>
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col size="12" size-md="4">
-            <ion-input
-              type="number"
-              formControlName="detrazioniAnnue"
-              label="Detrazioni €"
-              label-placement="stacked"
-              class="custom-input"
-            ></ion-input>
-          </ion-col>
-          <ion-col size="12" size-md="4">
-            <ion-input
-              type="number"
-              formControlName="addizionaleRegionalePercentuale"
-              label="Add. regionale %"
-              label-placement="stacked"
-              class="custom-input"
-            ></ion-input>
-          </ion-col>
-          <ion-col size="12" size-md="4">
-            <ion-input
-              type="number"
-              formControlName="addizionaleComunalePercentuale"
-              label="Add. comunale %"
-              label-placement="stacked"
-              class="custom-input"
-            ></ion-input>
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col size="12">
-            <ion-input
-              type="number"
-              formControlName="carichiFamiliariDetrazioniAnnue"
-              label="Detrazioni carichi familiari €"
-              label-placement="stacked"
-              class="custom-input"
-            ></ion-input>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
+    <!-- Sistema pensionistico rilevato automaticamente -->
+    <div class="manual-data-section fiscal-data-section">
+      <h3 class="section-title">Sistema pensionistico</h3>
+      <div class="system-summary" aria-live="polite">
+        <span class="system-label">{{ sistemaPensionisticoLabel() }}</span>
+        <br />
+        <span class="system-source">{{ sistemaPensionisticoFonte() }}</span>
+      </div>
     </div>
 
     <!-- Pulsante Calcola -->

@@ -135,8 +135,7 @@ test.describe('Calcolo Pensione Anzianità - Flusso E2E (Fase 3.1)', () => {
     await page.getByRole('button', { name: /Calcola Pensione/i }).click();
     await expect(page).toHaveURL(/.*\/risultati/);
 
-    await expect(
-      page.locator('ion-button', { hasText: 'Scarica Risultati (.md / PDF)' }),
-    ).toBeVisible();
+    await expect(page.locator('ion-button', { hasText: 'Scarica .md' })).toBeVisible();
+    await expect(page.locator('ion-button', { hasText: 'Scarica PDF' })).toBeVisible();
   });
 });

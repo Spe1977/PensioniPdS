@@ -121,6 +121,36 @@ describe('PensionEngineService', () => {
     });
   });
 
+  describe('coefficienti capitoli 8 e 9 penps.md', () => {
+    it('espone i coefficienti ufficiali di rivalutazione del montante 1996-2025', () => {
+      expect(service.getCoefficienteRivalutazioneMontante(1996)).toBe(1.062608);
+      expect(service.getCoefficienteRivalutazioneMontante(2014)).toBe(1);
+      expect(service.getCoefficienteRivalutazioneMontante(2021)).toBe(1);
+      expect(service.getCoefficienteRivalutazioneMontante(2025)).toBe(1.040445);
+    });
+
+    it('calcola il montante contributivo con capitalizzazione composta annuale', () => {
+      const montante = service.calcolaMontanteContributivoRivalutato(
+        [
+          { anno: 2022, importo: 10000 },
+          { anno: 2023, importo: 10000 },
+          { anno: 2024, importo: 10000 },
+          { anno: 2025, importo: 10000 },
+        ],
+        2025,
+      );
+
+      expect(montante).toBe(42224.36);
+    });
+
+    it('seleziona i coefficienti di trasformazione per età e anno di decorrenza', () => {
+      expect(service.getCoefficienteTrasformazione(60, 2025)).toBeCloseTo(0.04536, 5);
+      expect(service.getCoefficienteTrasformazione(65, 2024)).toBeCloseTo(0.05352, 5);
+      expect(service.getCoefficienteTrasformazione(71, 2022)).toBeCloseTo(0.06466, 5);
+      expect(service.getCoefficienteTrasformazione(66, 2009)).toBeUndefined();
+    });
+  });
+
   // ── Test: calcolaMaggiorazione ──
 
   describe('calcolaMaggiorazione', () => {
@@ -478,7 +508,7 @@ describe('PensionEngineService', () => {
       expect(result.seiScattiMontanteFigurativo).toBe(1980);
       expect(result.moltiplicatoreMontante).toBe(0);
       expect(result.pensioneLordaAnnua).toBe(39542.96);
-      expect(result.pensioneNettaMensile).toBeCloseTo(2326.8, 2);
+      expect(result.pensioneNettaMensile).toBeCloseTo(2202, 2);
       expect(result.noteBenefici.join(' ')).toContain('moltiplicatore non applicato');
     });
 
@@ -499,7 +529,7 @@ describe('PensionEngineService', () => {
       expect(result.quotaContributivaAnnua).toBe(18290.09);
       expect(result.pensioneLordaAnnua).toBe(32540.09);
       expect(result.irpefLordaAnnua).toBe(7938.23);
-      expect(result.pensioneNettaMensile).toBeCloseTo(1979.51, 2);
+      expect(result.pensioneNettaMensile).toBeCloseTo(1871.86, 2);
     });
 
     it('calcola lo scenario C contributivo puro ignorando quote retributive manuali', () => {
@@ -519,13 +549,33 @@ describe('PensionEngineService', () => {
       expect(result.seiScattiRetributiviAnnui).toBe(0);
       expect(result.seiScattiMontanteFigurativo).toBe(1732.5);
       expect(result.quotaContributivaAnnua).toBe(20890.09);
-      expect(result.pensioneNettaMensile).toBeCloseTo(1347.07, 2);
+      expect(result.pensioneNettaMensile).toBeCloseTo(1285.73, 2);
     });
 
     it('applica gli scaglioni IRPEF 2026 al lordo annuo', () => {
       expect(service.calcolaIrpefLorda(28000)).toBe(6440);
       expect(service.calcolaIrpefLorda(50000)).toBe(13700);
       expect(service.calcolaIrpefLorda(60000)).toBe(18000);
+    });
+
+    it('calcola correttamente le detrazioni da reddito da pensione', () => {
+      // <= 8500
+      expect(service.calcolaDetrazioniPensione(8000)).toBe(1955);
+      
+      // 8501 - 28000 (Formula: 700 + 1255 * (28000 - reddito) / 19500)
+      expect(service.calcolaDetrazioniPensione(15000)).toBe(1536.67);
+      
+      // 25001 - 28000 (con bonus +50)
+      expect(service.calcolaDetrazioniPensione(26000)).toBe(878.72);
+      
+      // 28001 - 29000 (Formula: 700 * (50000 - reddito) / 22000 + 50)
+      expect(service.calcolaDetrazioniPensione(28500)).toBe(734.09);
+      
+      // 29001 - 50000 (Formula: 700 * (50000 - reddito) / 22000)
+      expect(service.calcolaDetrazioniPensione(35000)).toBe(477.27);
+      
+      // > 50000
+      expect(service.calcolaDetrazioniPensione(55000)).toBe(0);
     });
   });
 
@@ -551,7 +601,7 @@ describe('PensionEngineService', () => {
       expect(result.seiScattiMontanteFigurativo).toBe(1980);
       expect(result.moltiplicatoreMontante).toBe(0);
       expect(result.pensioneLordaAnnua).toBe(39542.96);
-      expect(result.pensioneNettaMensile).toBeCloseTo(2326.8, 2);
+      expect(result.pensioneNettaMensile).toBeCloseTo(2202, 2);
       expect(result.noteBenefici.join(' ')).toContain(
         'età+anzianità a domanda: moltiplicatore non applicato',
       );
@@ -570,7 +620,7 @@ describe('PensionEngineService', () => {
       });
 
       expect(result.scenario).toBe('misto');
-      expect(result.pensioneNettaMensile).toBeCloseTo(1979.51, 2);
+      expect(result.pensioneNettaMensile).toBeCloseTo(1871.86, 2);
     });
 
     it('calcola lo scenario C contributivo puro ignorando quote retributive manuali', () => {
@@ -586,7 +636,7 @@ describe('PensionEngineService', () => {
       });
 
       expect(result.scenario).toBe('contributivo_puro');
-      expect(result.pensioneNettaMensile).toBeCloseTo(1347.07, 2);
+      expect(result.pensioneNettaMensile).toBeCloseTo(1285.73, 2);
     });
   });
 

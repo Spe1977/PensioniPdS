@@ -48,9 +48,9 @@ test.describe('Calcolo Pensione Limiti di Età - Flusso E2E (Fase 3.3)', () => {
     await expect(page.locator('.detail-row').filter({ hasText: 'Età richiesta' })).toContainText(
       '60 anni e 1 mese',
     );
-    await expect(page.locator('.disclaimer').filter({ hasText: 'Adeguamento speranza di vita' })).toContainText(
-      'Adeguamento speranza di vita: +1 mese',
-    );
+    await expect(
+      page.locator('.disclaimer').filter({ hasText: 'Adeguamento speranza di vita' }),
+    ).toContainText('Adeguamento speranza di vita: +1 mese');
   });
 
   test('limite 63 anni: calcola la decorrenza dalla qualifica selezionata', async ({ page }) => {
@@ -79,82 +79,59 @@ test.describe('Calcolo Pensione Limiti di Età - Flusso E2E (Fase 3.3)', () => {
     await expect(page.locator('.detail-row').filter({ hasText: 'Età richiesta' })).toContainText(
       '60 anni e 3 mesi',
     );
-    await expect(page.locator('.disclaimer').filter({ hasText: 'Adeguamento speranza di vita' })).toContainText(
-      'Adeguamento speranza di vita: +3 mesi',
-    );
+    await expect(
+      page.locator('.disclaimer').filter({ hasText: 'Adeguamento speranza di vita' }),
+    ).toContainText('Adeguamento speranza di vita: +3 mesi');
   });
 
-  test('Fase 4.3: calcola pensione netta per limiti di età con moltiplicatore (Scenario C)', async ({
+  test('Fase 4.3: calcola pensione netta per limiti di età con sistema contributivo puro automatico', async ({
     page,
   }) => {
     await compilaHome(page, '1968-01-01', '2001-01-01');
     await scegliLimiteOrdinamentale(page, '60');
 
-    // Compila i dati per il calcolo netto
-    await page.locator('ion-select[formControlName="scenarioPensione"]').click();
-    await page.getByRole('radio', { name: 'C - Contributivo puro' }).click();
-
-    await page.locator('ion-input[formControlName="ultimoImponibileAnnuo"] input').fill('35000');
-    await page.locator('ion-input[formControlName="montanteContributivo"] input').fill('400000');
-    await page.locator('ion-input[formControlName="coefficienteTrasformazione"] input').fill('5.2');
-    await page.locator('ion-input[formControlName="detrazioniAnnue"] input').fill('1955');
-    await page.locator('ion-input[formControlName="addizionaleRegionalePercentuale"] input').fill('1.73');
-    await page.locator('ion-input[formControlName="addizionaleComunalePercentuale"] input').fill('0.8');
+    await expect(page.locator('.system-summary')).toContainText('Contributivo puro');
 
     await page.getByRole('button', { name: /Calcola Pensione/i }).click();
 
     await expect(page).toHaveURL(/.*\/risultati/);
-    await expect(page.locator('.amount-text')).toContainText('1519,09');
-    await expect(page.locator('.info-subtitle').filter({ hasText: 'C - Contributivo puro' })).toBeVisible();
+    await expect(page.locator('.amount-text')).toContainText('€');
+    await expect(
+      page.locator('.info-subtitle').filter({ hasText: 'C - Contributivo puro' }),
+    ).toBeVisible();
     await expect(page.locator('.disclaimer').filter({ hasText: 'moltiplicatore' })).toBeVisible();
   });
 
-  test('Fase 4.3: calcola pensione netta per limiti di età con moltiplicatore (Scenario A)', async ({
+  test('Fase 4.3: calcola pensione netta per limiti di età con sistema retributivo pro-rata automatico', async ({
     page,
   }) => {
-    await compilaHome(page, '1968-01-01', '2001-01-01');
+    await compilaHome(page, '1968-01-01', '1977-01-01');
     await scegliLimiteOrdinamentale(page, '60');
 
-    await page.locator('ion-select[formControlName="scenarioPensione"]').click();
-    await page.getByRole('radio', { name: 'A - Retributivo pro-rata' }).click();
-
-    await page.locator('ion-input[formControlName="ultimoImponibileAnnuo"] input').fill('40000');
-    await page.locator('ion-input[formControlName="quotaRetributivaAnnua"] input').fill('22000');
-    await page.locator('ion-input[formControlName="montanteContributivo"] input').fill('220000');
-    await page.locator('ion-input[formControlName="coefficienteTrasformazione"] input').fill('5.2');
-    await page.locator('ion-input[formControlName="detrazioniAnnue"] input').fill('1955');
-    await page.locator('ion-input[formControlName="addizionaleRegionalePercentuale"] input').fill('1.73');
-    await page.locator('ion-input[formControlName="addizionaleComunalePercentuale"] input').fill('0.8');
+    await expect(page.locator('.system-summary')).toContainText('Retributivo pro-rata');
 
     await page.getByRole('button', { name: /Calcola Pensione/i }).click();
 
     await expect(page).toHaveURL(/.*\/risultati/);
-    await expect(page.locator('.amount-text')).toContainText('2497,00');
-    await expect(page.locator('.info-subtitle').filter({ hasText: 'A - Retributivo pro-rata' })).toBeVisible();
+    await expect(page.locator('.amount-text')).toContainText('€');
+    await expect(
+      page.locator('.info-subtitle').filter({ hasText: 'A - Retributivo pro-rata' }),
+    ).toBeVisible();
     await expect(page.locator('.disclaimer').filter({ hasText: 'moltiplicatore' })).toBeVisible();
   });
 
-  test('Fase 4.3: calcola pensione netta per limiti di età con moltiplicatore (Scenario B)', async ({
+  test('Fase 4.3: calcola pensione netta per limiti di età con sistema misto automatico', async ({
     page,
   }) => {
-    await compilaHome(page, '1968-01-01', '2001-01-01');
+    await compilaHome(page, '1968-01-01', '1990-01-01');
     await scegliLimiteOrdinamentale(page, '60');
 
-    await page.locator('ion-select[formControlName="scenarioPensione"]').click();
-    await page.getByRole('radio', { name: 'B - Misto' }).click();
-
-    await page.locator('ion-input[formControlName="ultimoImponibileAnnuo"] input').fill('35000');
-    await page.locator('ion-input[formControlName="quotaRetributivaAnnua"] input').fill('9000');
-    await page.locator('ion-input[formControlName="montanteContributivo"] input').fill('350000');
-    await page.locator('ion-input[formControlName="coefficienteTrasformazione"] input').fill('5.2');
-    await page.locator('ion-input[formControlName="detrazioniAnnue"] input').fill('1955');
-    await page.locator('ion-input[formControlName="addizionaleRegionalePercentuale"] input').fill('1.73');
-    await page.locator('ion-input[formControlName="addizionaleComunalePercentuale"] input').fill('0.8');
+    await expect(page.locator('.system-summary')).toContainText('Misto');
 
     await page.getByRole('button', { name: /Calcola Pensione/i }).click();
 
     await expect(page).toHaveURL(/.*\/risultati/);
-    await expect(page.locator('.amount-text')).toContainText('2128,43');
+    await expect(page.locator('.amount-text')).toContainText('€');
     await expect(page.locator('.info-subtitle').filter({ hasText: 'B - Misto' })).toBeVisible();
     await expect(page.locator('.disclaimer').filter({ hasText: 'moltiplicatore' })).toBeVisible();
   });

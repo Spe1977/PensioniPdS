@@ -127,4 +127,39 @@ describe('RisultatiPage', () => {
     fixture.detectChanges();
     expect(component.formatDurata(component.etaRichiesta())).toBe('60 anni e 1 mese');
   });
+
+  it('should download markdown and PDF result files without placeholder alerts', () => {
+    state.risultato.set({
+      dataMaturazioneDiritto: new Date(2026, 0, 1),
+      dataDecorrenza: new Date(2027, 3, 1),
+      servizioEffettivo: { anni: 36, mesi: 0, giorni: 0 },
+      maggiorazione: { anni: 5, mesi: 0, giorni: 0 },
+      servizioUtile: { anni: 41, mesi: 0, giorni: 0 },
+      requisitiApplicati: {
+        tipo: 'anzianita',
+        anno: 2026,
+        anniRichiesti: 41,
+        mesiExtra: 0,
+        finestraMobileMesi: 15,
+      },
+    });
+    const created: Blob[] = [];
+    const createObjectUrlSpy = vi.spyOn(URL, 'createObjectURL').mockImplementation((blob) => {
+      created.push(blob as Blob);
+      return 'blob:test';
+    });
+    const revokeObjectUrlSpy = vi.spyOn(URL, 'revokeObjectURL').mockImplementation(() => {});
+    const clickSpy = vi.spyOn(HTMLAnchorElement.prototype, 'click').mockImplementation(() => {});
+
+    component.scaricaRisultatiMarkdown();
+    component.scaricaRisultatiPdf();
+
+    expect(clickSpy).toHaveBeenCalledTimes(2);
+    expect(created[0]?.type).toBe('text/markdown;charset=utf-8');
+    expect(created[1]?.type).toBe('application/pdf');
+
+    createObjectUrlSpy.mockRestore();
+    revokeObjectUrlSpy.mockRestore();
+    clickSpy.mockRestore();
+  });
 });

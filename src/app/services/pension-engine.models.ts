@@ -13,11 +13,28 @@ export type TipoSimulazione = 'anzianita' | 'eta_anzianita' | 'limiti_eta';
 /** Scenario di calcolo della quota pensionistica */
 export type ScenarioCalcoloPensione = 'retributivo_pro_rata' | 'misto' | 'contributivo_puro';
 
-/** Dati manuali necessari al calcolo netto della pensione di anzianità */
-export interface PensioneNettaAnzianitaInput {
+/** Contributo annuo già espresso come montante contributivo, non come retribuzione lorda */
+export interface ContributoAnnuale {
+  anno: number;
+  importo: number;
+}
+
+/** Coefficiente ipotetico da usare quando manca il dato ufficiale di rivalutazione */
+export interface TassoRivalutazioneManuale {
+  anno: number;
+  tassoPercentuale: number;
+}
+
+/** Dati comuni necessari al calcolo netto della pensione */
+export interface PensioneNettaBaseInput {
   scenario: ScenarioCalcoloPensione;
   quotaRetributivaAnnua?: number;
   montanteContributivo?: number;
+  annoBaseMontante?: number;
+  annoCalcolo?: number;
+  contributiAnnuali?: ContributoAnnuale[];
+  contributiFuturi?: ContributoAnnuale[];
+  tassiRivalutazioneManuali?: TassoRivalutazioneManuale[];
   coefficienteTrasformazione?: number;
   ultimoImponibileAnnuo: number;
   detrazioniAnnue?: number;
@@ -26,39 +43,24 @@ export interface PensioneNettaAnzianitaInput {
   carichiFamiliariDetrazioniAnnue?: number;
   applicaSeiScatti?: boolean;
 }
+
+/** Dati manuali necessari al calcolo netto della pensione di anzianità */
+export interface PensioneNettaAnzianitaInput extends PensioneNettaBaseInput {}
 
 /** Dati manuali necessari al calcolo netto della pensione con requisito età + anzianità */
-export interface PensioneNettaEtaAnzianitaInput {
-  scenario: ScenarioCalcoloPensione;
-  quotaRetributivaAnnua?: number;
-  montanteContributivo?: number;
-  coefficienteTrasformazione?: number;
-  ultimoImponibileAnnuo: number;
-  detrazioniAnnue?: number;
-  addizionaleRegionalePercentuale?: number;
-  addizionaleComunalePercentuale?: number;
-  carichiFamiliariDetrazioniAnnue?: number;
-  applicaSeiScatti?: boolean;
-}
+export interface PensioneNettaEtaAnzianitaInput extends PensioneNettaBaseInput {}
 
 /** Dati manuali necessari al calcolo netto della pensione per limiti di età */
-export interface PensioneNettaLimitiEtaInput {
-  scenario: ScenarioCalcoloPensione;
-  quotaRetributivaAnnua?: number;
-  montanteContributivo?: number;
-  coefficienteTrasformazione?: number;
-  ultimoImponibileAnnuo: number;
-  detrazioniAnnue?: number;
-  addizionaleRegionalePercentuale?: number;
-  addizionaleComunalePercentuale?: number;
-  carichiFamiliariDetrazioniAnnue?: number;
-  applicaSeiScatti?: boolean;
+export interface PensioneNettaLimitiEtaInput extends PensioneNettaBaseInput {
   applicaMoltiplicatore?: boolean;
 }
 
 /** Risultato del calcolo lordo/netto per la pensione */
 export interface PensioneNettaResult {
   scenario: ScenarioCalcoloPensione;
+  montanteContributivoBase?: number;
+  montanteContributivoFinale?: number;
+  coefficienteTrasformazione?: number;
   quotaRetributivaAnnua: number;
   quotaContributivaAnnua: number;
   seiScattiRetributiviAnnui: number;

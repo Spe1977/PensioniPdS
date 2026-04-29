@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { readFileSync } from 'node:fs';
 import { CaricamentoDatiPage } from './caricamento-dati.page';
 import { provideRouter } from '@angular/router';
 import { SimulationStateService } from '../services/simulation-state.service';
@@ -66,23 +67,36 @@ describe('CaricamentoDatiPage', () => {
     expect(formGroup.valid).toBeFalsy();
   });
 
-  it('should update file name when a file is selected', () => {
-    const mockFile = new File([''], 'test-inps.pdf', { type: 'application/pdf' });
+  it('should update file name when a file is selected', async () => {
+    const mockFile = new File(['<EstrattoConto/>'], 'test-inps.xml', { type: 'text/xml' });
     const event = {
       target: { files: [mockFile] },
     } as unknown as Event;
 
-    component.onFileSelected(event, 'inps');
-    expect(component.fileNames.inps).toBe('test-inps.pdf');
+    await component.onFileSelected(event, 'inps');
+    expect(component.fileNames.inps).toBe('test-inps.xml');
     expect(component.filesForm.get('inpsFile')?.value).toBe(mockFile);
   });
 
-  it('should calculate anzianita result with net pension estimate from manual data', () => {
+  it('should parse real INPS XML and patch pension fields', async () => {
+    const xml = readFileSync('doc/inps.xml', 'utf8');
+    const mockFile = new File([xml], 'inps.xml', { type: 'text/xml' });
+    const event = {
+      target: { files: [mockFile] },
+    } as unknown as Event;
+
+    await component.onFileSelected(event, 'inps');
+
+    expect(component.parsedDocuments.length).toBe(1);
+    expect(component.filesForm.get('montanteContributivo')?.value).toBeGreaterThan(250000);
+    expect(component.filesForm.get('ultimoImponibileAnnuo')?.value).toBe(54523.98);
+  });
+
+  it('should calculate anzianita result with automatic mixed pension system from manual data', () => {
     state.dataNascita.set('1970-01-01');
     state.dataAssunzione.set('1990-01-01');
     state.tipoSimulazione.set('anzianita');
     component.filesForm.patchValue({
-      scenarioPensione: 'contributivo_puro',
       montanteContributivo: 400000,
       coefficienteTrasformazione: 5.2,
       ultimoImponibileAnnuo: 35000,
@@ -93,8 +107,71 @@ describe('CaricamentoDatiPage', () => {
     const risultato = state.risultato();
     expect(risultato).toBeTruthy();
     expect(risultato?.requisitiApplicati.tipo).toBe('anzianita');
-    expect(risultato?.pensioneNetta?.scenario).toBe('contributivo_puro');
+    expect(risultato?.pensioneNetta?.scenario).toBe('misto');
     expect(risultato?.pensioneNetta?.pensioneNettaMensile).toBeGreaterThan(0);
+  });
+
+  it('should detect mixed system when INPS periods exist before 1996', async () => {
+    state.dataAssunzione.set('1996-03-01');
+    const xml = `<?xml version="1.0"?>
+      <EstrattoConto>
+        <RigaContributiGestionePubblica>
+          <Dal>01/01/1992</Dal>
+          <Al>31/12/1995</Al>
+          <AnniContribUtiliDiritto>4</AnniContribUtiliDiritto>
+          <MesiContribUtiliDiritto>0</MesiContribUtiliDiritto>
+          <RetribuzioneEuro>40.000,00</RetribuzioneEuro>
+        </RigaContributiGestionePubblica>
+      </EstrattoConto>`;
+    const mockFile = new File([xml], 'pre-1996.xml', { type: 'text/xml' });
+
+    await component.onFileSelected({ target: { files: [mockFile] } } as unknown as Event, 'inps');
+
+    expect(component.filesForm.get('scenarioPensione')?.value).toBe('misto');
+    expect(component.sistemaPensionisticoLabel()).toBe('Misto');
+  });
+
+  it('should detect contributive pure system when all contributions start from 1996', async () => {
+    state.dataAssunzione.set('1998-09-30');
+    const xml = `<?xml version="1.0"?>
+      <EstrattoConto>
+        <RigaContributiGestionePubblica>
+          <Dal>02/02/1996</Dal>
+          <Al>31/12/1996</Al>
+          <AnniContribUtiliDiritto>0</AnniContribUtiliDiritto>
+          <MesiContribUtiliDiritto>11</MesiContribUtiliDiritto>
+          <RetribuzioneEuro>20.000,00</RetribuzioneEuro>
+        </RigaContributiGestionePubblica>
+      </EstrattoConto>`;
+    const mockFile = new File([xml], 'post-1996.xml', { type: 'text/xml' });
+
+    await component.onFileSelected({ target: { files: [mockFile] } } as unknown as Event, 'inps');
+
+    expect(component.filesForm.get('scenarioPensione')?.value).toBe('contributivo_puro');
+    expect(component.sistemaPensionisticoLabel()).toBe('Contributivo puro');
+  });
+
+  it('should add future contributions to the contributive montante', () => {
+    state.dataNascita.set('1970-01-01');
+    state.dataAssunzione.set('1990-01-01');
+    state.tipoSimulazione.set('anzianita');
+    component.filesForm.patchValue({
+      scenarioPensione: 'contributivo_puro',
+      montanteContributivo: 10000,
+      coefficienteTrasformazione: 5,
+      ultimoImponibileAnnuo: 0,
+    });
+    component.aggiungiContributoFuturo();
+    component.contributiFuturi.at(0).patchValue({
+      anno: 2027,
+      importo: 1000,
+      tassoRivalutazione: 2,
+    });
+
+    component.onCalcola();
+
+    const pensioneNetta = state.risultato()?.pensioneNetta;
+    expect(pensioneNetta?.quotaContributivaAnnua).toBe(470.85);
   });
 
   it('should calculate eta + anzianita result from shared state', () => {
