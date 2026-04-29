@@ -124,8 +124,13 @@ describe('PensionEngineService', () => {
   describe('coefficienti capitoli 8 e 9 penps.md', () => {
     it('espone i coefficienti ufficiali di rivalutazione del montante 1996-2025', () => {
       expect(service.getCoefficienteRivalutazioneMontante(1996)).toBe(1.062608);
+      expect(service.getCoefficienteRivalutazioneMontante(2011)).toBe(1.016165);
       expect(service.getCoefficienteRivalutazioneMontante(2014)).toBe(1);
+      expect(service.getCoefficienteRivalutazioneMontante(2016)).toBe(1.004684);
+      expect(service.getCoefficienteRivalutazioneMontante(2017)).toBe(1.005205);
       expect(service.getCoefficienteRivalutazioneMontante(2021)).toBe(1);
+      expect(service.getCoefficienteRivalutazioneMontante(2022)).toBe(1.009756);
+      expect(service.getCoefficienteRivalutazioneMontante(2023)).toBe(1.023082);
       expect(service.getCoefficienteRivalutazioneMontante(2025)).toBe(1.040445);
     });
 
@@ -561,19 +566,19 @@ describe('PensionEngineService', () => {
     it('calcola correttamente le detrazioni da reddito da pensione', () => {
       // <= 8500
       expect(service.calcolaDetrazioniPensione(8000)).toBe(1955);
-      
+
       // 8501 - 28000 (Formula: 700 + 1255 * (28000 - reddito) / 19500)
       expect(service.calcolaDetrazioniPensione(15000)).toBe(1536.67);
-      
+
       // 25001 - 28000 (con bonus +50)
       expect(service.calcolaDetrazioniPensione(26000)).toBe(878.72);
-      
+
       // 28001 - 29000 (Formula: 700 * (50000 - reddito) / 22000 + 50)
       expect(service.calcolaDetrazioniPensione(28500)).toBe(734.09);
-      
+
       // 29001 - 50000 (Formula: 700 * (50000 - reddito) / 22000)
       expect(service.calcolaDetrazioniPensione(35000)).toBe(477.27);
-      
+
       // > 50000
       expect(service.calcolaDetrazioniPensione(55000)).toBe(0);
     });

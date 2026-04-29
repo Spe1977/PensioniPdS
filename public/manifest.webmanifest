@@ -1,10 +1,10 @@
 {
   "name": "PensioniPdS - Simulatore Polizia",
   "short_name": "PensioniPdS",
-  "description": "Simulatore pensionistico semplice ed automatico per la Polizia di Stato",
-  "theme_color": "#ffffff",
-  "background_color": "#ffffff",
+  "description": "Simulatore pensionistico semplice ed automatico per la Polizia di Stato.",
   "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#1f4f7a",
   "scope": "/",
   "start_url": "/",
   "icons": [
