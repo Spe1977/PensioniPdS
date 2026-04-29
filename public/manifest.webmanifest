@@ -1,9 +1,12 @@
 {
-  "name": "app",
-  "short_name": "app",
+  "name": "PensioniPdS - Simulatore Polizia",
+  "short_name": "PensioniPdS",
+  "description": "Simulatore pensionistico semplice ed automatico per la Polizia di Stato",
+  "theme_color": "#ffffff",
+  "background_color": "#ffffff",
   "display": "standalone",
-  "scope": "./",
-  "start_url": "./",
+  "scope": "/",
+  "start_url": "/",
   "icons": [
     {
       "src": "icons/icon-72x72.png",
