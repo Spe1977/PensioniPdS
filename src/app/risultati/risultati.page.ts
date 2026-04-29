@@ -184,9 +184,9 @@ export class RisultatiPage {
     const pagine = this.chunk(lines, 38);
     const objects: string[] = [
       '<< /Type /Catalog /Pages 2 0 R >>',
-      `<< /Type /Pages /Kids ${pagine
+      `<< /Type /Pages /Kids [${pagine
         .map((_, index) => `${4 + index * 2} 0 R`)
-        .join(' ')} /Count ${pagine.length} >>`,
+        .join(' ')}] /Count ${pagine.length} >>`,
       '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>',
     ];
 
