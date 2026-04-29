@@ -36,6 +36,11 @@
                 "glob": "**/*",
                 "input": "src/assets",
                 "output": "assets"
+              },
+              {
+                "glob": "pdf.worker.mjs",
+                "input": "node_modules/pdfjs-dist/legacy/build",
+                "output": "/pdfjs-dist"
               }
             ],
             "styles": ["src/global.scss", "src/theme/variables.scss"],
@@ -116,6 +121,11 @@
                 "glob": "**/*",
                 "input": "src/assets",
                 "output": "assets"
+              },
+              {
+                "glob": "pdf.worker.mjs",
+                "input": "node_modules/pdfjs-dist/legacy/build",
+                "output": "/pdfjs-dist"
               }
             ],
             "styles": ["src/global.scss", "src/theme/variables.scss"],

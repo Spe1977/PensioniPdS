@@ -51,10 +51,7 @@ export class DocumentParserService {
       (globalThis as typeof globalThis & { pdfjsWorker?: unknown }).pdfjsWorker =
         await import('pdfjs-dist/legacy/build/pdf.worker.mjs');
     } else {
-      pdfjs.GlobalWorkerOptions.workerSrc = new URL(
-        'pdfjs-dist/legacy/build/pdf.worker.mjs',
-        import.meta.url,
-      ).toString();
+      pdfjs.GlobalWorkerOptions.workerSrc = '/pdfjs-dist/pdf.worker.mjs';
     }
 
     const pdf = await pdfjs.getDocument({
