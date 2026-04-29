@@ -86,6 +86,7 @@ Dal 2029 in avanti:
 I requisiti devono essere gestiti come parametri aggiornabili. L'app non deve cristallizzare automaticamente l'incremento aggiuntivo specifico del comparto sicurezza/difesa/soccorso pubblico finché non risultano disponibili il DPCM attuativo e le successive istruzioni INPS.
 
 Fase 4:
+
 # CALCOLO PENSIONE
 
 Calcolo dell'importo della pensione netta in base alle aliquote IRPEF in vigore, con inclusione dei 6 scatti e del moltiplicatore nei casi in cui questi benefici devono essere corrisposti secondo penps.md.
@@ -103,10 +104,11 @@ Calcolo della pensione netta per limiti di età (60, 63 e 65 anni) negli scenari
 
 Fase 5 - COMPLETATA
 Includere nei calcoli pensionistici i seguenti tre elementi reperibili nei capitoli 7, 7.1 e 7.2 del file penps.md:
+
 - Imposta lorda (aliquote IRPEF);
 - Detrazioni da reddito da pensione (calcolate secondo gli scaglioni di reddito e le formule matematiche)
 - Addizionali regionali e comunali (da estrapolare dalla busta paga);
-realizzare i test Vitest e Playwright per questa fase e lanciare Prettier.
+  realizzare i test Vitest e Playwright per questa fase e lanciare Prettier.
 
 # VINCOLI OPERATIVI DA RISPETTARE SEMPRE:
 
@@ -121,6 +123,5 @@ realizzare i test Vitest e Playwright per questa fase e lanciare Prettier.
 9 - Esprimiti sempre in lingua italiana.
 
 # NOTA del 28.04.2026:
-
 
 # GRAZIE PER L'AIUTO E BUON LAVORO!

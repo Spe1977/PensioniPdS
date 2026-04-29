@@ -51,7 +51,6 @@ Nota: Per valorizzare tali periodi è necessario il riscatto a domanda (Rif. Not
 - Nel Contributivo Ordinario (Art. 2 c. 5): Onere = Retribuzione ultimi 12 mesi × 33%.
 
 - Nel Contributivo Agevolato (Art. 2 c. 5-quater, D.L. 4/2019):
-
   - Applicabile solo ai periodi da valutare nel sistema contributivo.
 
   - Costo fisso annuo basato sul minimale artigiani/commercianti.
@@ -89,7 +88,6 @@ Guida all'applicazione dell'Art. 5 D.Lgs 165/1997 per casistiche di uscita Nel s
 - Applicazione Moltiplicatore: NON SPETTA. Il Moltiplicatore non viene erogato in quanto la cessazione non avviene per limiti di età o riforma.
 
 - Applicazione 6 Scatti:
-
   - **ai fini pensionistici**: il beneficio ex art. 6-bis D.L. 387/1987 e art. 4 D.Lgs. 165/1997 può essere riconosciuto anche in caso di cessazione a domanda, con versamento della quota residua fino al limite di età, secondo le regole vigenti;
 
   - **ai fini TFS**: l’INPS tende ad applicare i 6 scatti solo per limiti di età, inabilità e decesso, ma esiste un ampio contenzioso e una giurisprudenza favorevole al riconoscimento anche per il personale congedato a domanda con determinati requisiti (es. almeno 55 anni di età e 35 anni di servizio utile).
@@ -99,7 +97,6 @@ Per questo motivo, nei conteggi previdenziali è prudente distinguere tra quanto
 **B. Casistica: Pensione per Limiti di Età (60 Anni)** Scenario: Il dipendente cessa dal servizio d'ufficio per raggiungimento del limite di età ordinamentale (60 anni per qualifiche non dirigenziali).
 
 - Applicazione Maggiorazione 1/5 (L. 284/77):
-
   - ai fini del **diritto**, la maggiorazione continua a rilevare per il calcolo del servizio utile (es. nel raggiungimento dei 35 o 41 anni di servizio utile);
 
   - ai fini della **misura**, l’1/5 incide solo sulle quote calcolate con sistema retributivo (A e B) e non sulla Quota C contributiva. Non va quindi trasformato in versamenti figurativi né sommato al montante.
@@ -270,12 +267,12 @@ Il personale è in regime di TFS (Indennità di Buonuscita).
 
 I tempi di erogazione variano drasticamente in base alla causa di cessazione:
 
-| Motivo Cessazione     | Termine Pagamento | Note                                        |
-|-----------------------|-------------------|---------------------------------------------|
-| Decesso / Inabilità   | 105 giorni        | Termine breve per eventi gravi              |
+| Motivo Cessazione     | Termine Pagamento | Note                                       |
+| --------------------- | ----------------- | ------------------------------------------ |
+| Decesso / Inabilità   | 105 giorni        | Termine breve per eventi gravi             |
 | Limiti di età         | 12 mesi           | + 90 gg istruttoria INPS (ca. 15 mesi tot) |
 | A domanda (Anzianità) | 24 mesi           | + 90 gg istruttoria INPS (ca. 27 mesi tot) |
-| Destituzione          | 24 mesi           | Equiparata a dimissioni                     |
+| Destituzione          | 24 mesi           | Equiparata a dimissioni                    |
 
 Nota sulla Costituzionalità del Differimento: Si segnala che la Corte Costituzionale, con la Sentenza n. 130 del 2023, ha dichiarato che il differimento della liquidazione del TFS (che può arrivare fino a 27 mesi per le dimissioni volontarie) contrasta con il principio di giusta retribuzione sancito dall'art. 36 della Costituzione, definendo l'attuale normativa non più tollerabile. Sebbene la sentenza non abbia cancellato immediatamente i termini di attesa per non creare un vuoto di bilancio, essa impone al Legislatore di intervenire. Prospettive future: è in discussione una revisione normativa, sollecitata dalla sentenza n. 130/2023 della Corte Costituzionale, che potrebbe in futuro ridurre i tempi di attesa per la prima rata (ad esempio a 9 mesi per le cessazioni per limiti di età o anzianità). Alla data di redazione di questo testo, tuttavia, **non è ancora stata approvata** una legge che modifichi concretamente le attuali tempistiche di pagamento del TFS.
 
@@ -298,7 +295,7 @@ Le pensioni sono tassate alla fonte (IRPEF). Per ottenere il netto, si applicano
 ### 7.1 Aliquote IRPEF (Vigenti 2024 e Previsioni 2026)
 
 | Scaglione di Reddito | Aliquota 2024/2025 | Aliquota 2026 (Legge Bilancio)           |
-|----------------------|--------------------|------------------------------------------|
+| -------------------- | ------------------ | ---------------------------------------- |
 | Fino a 28.000 €      | 23%                | 23%                                      |
 | 28.001 - 50.000 €    | 35%                | 33% (Riduzione in vigore dal 01/01/2026) |
 | Oltre 50.000 €       | 43%                | 43%                                      |
@@ -334,7 +331,7 @@ inoltre, è previsto un aumento della detrazione pari a 50 euro per i redditi co
 Serie storica completa risultante dall'unione della Nota INPDAP 48/2010 e dell' Analisi Longitudinale 2025. Il montante si rivaluta al tasso di variazione quinquennale del PIL nominale.
 
 | Anno Rif. | Periodo PIL | Coeff. Rivalutazione | Tasso % | Note                 |
-|-----------|-------------|----------------------|---------|----------------------|
+| --------- | ----------- | -------------------- | ------- | -------------------- |
 | 1996      | 1991-1995   | 1,062608             | 6,26%   | ISTAT                |
 | 1997      | 1992-1996   | 1,055871             | 5,59%   | Nota 48/2010         |
 | 1998      | 1993-1997   | 1,053597             | 5,36%   | Nota 48/2010         |
@@ -375,8 +372,8 @@ Il meccanismo di rivalutazione del montante contributivo segue una logica ricors
 Esempio Pratico: Di seguito viene illustrato lo sviluppo numerico ipotizzando un versamento costante di 10.000 € annui per 5 anni e l'applicazione dei seguenti coefficienti: Anno 2: 1,02 Anno 3: 1,03 Anno 4: 1,01 Anno 5: 1,04
 
 | Anno   | Contributo Versato (Cn) | Montante Inizio Anno (Mn-1) | Calcolo Rivalutazione (Mn-1 x k) | Montante Fine Anno (Mn)          |
-|--------|-------------------------|-----------------------------|----------------------------------|----------------------------------|
-| Anno 1 | 10.000,00 €             | 0,00 €                      | -                               | 10.000,00 €                      |
+| ------ | ----------------------- | --------------------------- | -------------------------------- | -------------------------------- |
+| Anno 1 | 10.000,00 €             | 0,00 €                      | -                                | 10.000,00 €                      |
 | Anno 2 | 10.000,00 €             | 10.000,00 €                 | 10.000 × 1,02 = 10.200,00 €      | 10.200 + 10.000 = 20.200,00 €    |
 | Anno 3 | 10.000,00 €             | 20.200,00 €                 | 20.200 × 1,03 = 20.806,00 €      | 20.806 + 10.000 = 30.806,00 €    |
 | Anno 4 | 10.000,00 €             | 30.806,00 €                 | 30.806 × 1,01 = 31.114,06 €      | 31.114,06 + 10.000 = 41.114,06 € |
@@ -389,7 +386,7 @@ Totale Somme Versate: 50.000,00 € Totale Montante Rivalutato: 52.758,62 € Gu
 Coefficienti per convertire il Montante in Pensione Annua (Fonte: Allegato PDF).
 
 | Età | L.335/95 (1996-09) | L.247/07 (2010-12) | DM 2012 (2013-15) | DM 2015 (2016-18) | DM 2018 (2019-20) | DM 2020 (2021-22) | DM 2022 (2023-24) | DM 2024 (Dal 2025) |
-|-----|--------------------|--------------------|-------------------|-------------------|-------------------|-------------------|-------------------|--------------------|
+| --- | ------------------ | ------------------ | ----------------- | ----------------- | ----------------- | ----------------- | ----------------- | ------------------ |
 | 57  | 4,720%             | 4,419%             | 4,304%            | 4,246%            | 4,200%            | 4,186%            | 4,270%            | 4,204%             |
 | 58  | 4,860%             | 4,538%             | 4,416%            | 4,354%            | 4,304%            | 4,289%            | 4,378%            | 4,308%             |
 | 59  | 5,006%             | 4,664%             | 4,535%            | 4,468%            | 4,414%            | 4,399%            | 4,493%            | 4,419%             |
@@ -399,12 +396,12 @@ Coefficienti per convertire il Montante in Pensione Annua (Fonte: Allegato PDF).
 | 63  | 5,706%             | 5,257%             | 5,094%            | 5,002%            | 4,932%            | 4,910%            | 5,028%            | 4,936%             |
 | 64  | 5,911%             | 5,432%             | 5,259%            | 5,159%            | 5,083%            | 5,060%            | 5,184%            | 5,088%             |
 | 65  | 6,136%             | 5,620%             | 5,435%            | 5,326%            | 5,245%            | 5,220%            | 5,352%            | 5,250%             |
-| 66  | -                 | -                 | 5,624%            | 5,506%            | 5,419%            | 5,391%            | 5,531%            | 5,423%             |
-| 67  | -                 | -                 | 5,826%            | 5,700%            | 5,604%            | 5,575%            | 5,723%            | 5,608%             |
-| 68  | -                 | -                 | 6,046%            | 5,910%            | 5,804%            | 5,772%            | 5,931%            | 5,808%             |
-| 69  | -                 | -                 | 6,283%            | 6,135%            | 6,021%            | 5,985%            | 6,154%            | 6,024%             |
-| 70  | -                 | -                 | 6,541%            | 6,378%            | 6,257%            | 6,215%            | 6,395%            | 6,258%             |
-| 71  | -                 | -                 | -                | -                | 6,513%            | 6,466%            | 6,655%            | 6,510%             |
+| 66  | -                  | -                  | 5,624%            | 5,506%            | 5,419%            | 5,391%            | 5,531%            | 5,423%             |
+| 67  | -                  | -                  | 5,826%            | 5,700%            | 5,604%            | 5,575%            | 5,723%            | 5,608%             |
+| 68  | -                  | -                  | 6,046%            | 5,910%            | 5,804%            | 5,772%            | 5,931%            | 5,808%             |
+| 69  | -                  | -                  | 6,283%            | 6,135%            | 6,021%            | 5,985%            | 6,154%            | 6,024%             |
+| 70  | -                  | -                  | 6,541%            | 6,378%            | 6,257%            | 6,215%            | 6,395%            | 6,258%             |
+| 71  | -                  | -                  | -                 | -                 | 6,513%            | 6,466%            | 6,655%            | 6,510%             |
 
 **ATTENZIONE! AGGIORNAMENTO IMPORTANTE:** La legge di bilancio 2026 (Legge 30 Dicembre 2025 nr. 199), all’articolo 1 comma 180 prevede, dal 1° gennaio 2028, per le Forze Armate, le Forze di Polizia – sia a ordinamento civile che militare – e per i Vigili del Fuoco, un incremento “specifico” dei requisiti dell’adeguamento della speranza di vita a partire dal 2028:
 

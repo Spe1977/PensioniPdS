@@ -89,8 +89,7 @@ Nessuna finding alta identificata.
 - Evidence:
 
 ```html
-<input type="file" accept=".xml,.pdf" ... />
-<input type="file" accept=".pdf" ... />
+<input type="file" accept=".xml,.pdf" ... /> <input type="file" accept=".pdf" ... />
 ```
 
 ```ts
@@ -99,9 +98,8 @@ const parsed = await this.documentParser.parse(file, tipo);
 
 ```ts
 const formato = this.formatoDocumento(file);
-const text = formato === 'xml'
-  ? await file.text()
-  : await this.estraiTestoPdf(await file.arrayBuffer());
+const text =
+  formato === 'xml' ? await file.text() : await this.estraiTestoPdf(await file.arrayBuffer());
 ```
 
 - Impact: `accept` e' solo un vincolo UI e puo' essere aggirato. Un file molto grande o con estensione/MIME inattesi viene comunque letto in memoria e passato al parser PDF/XML, con possibile blocco del browser o consumo memoria. Il rischio e' principalmente client-side DoS locale; non ho visto upload verso server.
