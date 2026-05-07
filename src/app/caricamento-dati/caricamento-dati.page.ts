@@ -102,8 +102,17 @@ export class CaricamentoDatiPage {
       addizionaleRegionalePercentuale: [1.73, [Validators.required, Validators.min(0)]],
       addizionaleComunalePercentuale: [0.8, [Validators.required, Validators.min(0)]],
       carichiFamiliariDetrazioniAnnue: [0, [Validators.required, Validators.min(0)]],
+      anniQuotaA: [0, [Validators.min(0)]],
+      anniQuotaB: [0, [Validators.min(0)]],
+      retribuzionePensionabileFinale: [0, [Validators.min(0)]],
+      imponibile1996: [0, [Validators.min(0)]],
+      percentualeRivalutazioneQuotaB: [0, [Validators.min(0), Validators.max(100)]],
       contributiFuturi: this.fb.array([]),
     });
+  }
+
+  isSistemaMisto(): boolean {
+    return this.filesForm.get('scenarioPensione')?.value !== 'contributivo_puro';
   }
 
   get contributiFuturi() {
@@ -220,6 +229,27 @@ export class CaricamentoDatiPage {
       addizionaleComunalePercentuale: this.numero(raw.addizionaleComunalePercentuale),
       carichiFamiliariDetrazioniAnnue: this.numero(raw.carichiFamiliariDetrazioniAnnue),
       applicaSeiScatti: true,
+      quoteMiste: this.creaQuoteMisteDaForm(raw),
+    };
+  }
+
+  private creaQuoteMisteDaForm(raw: Record<string, unknown>) {
+    const anniQuotaA = this.numero(raw['anniQuotaA']);
+    const anniQuotaB = this.numero(raw['anniQuotaB']);
+    const retribuzionePensionabileFinale = this.numero(raw['retribuzionePensionabileFinale']);
+    const imponibile1996 = this.numero(raw['imponibile1996']);
+    const percentualeRivalutazioneQuotaB = this.numero(raw['percentualeRivalutazioneQuotaB']) / 100;
+
+    const haDati =
+      anniQuotaA > 0 || anniQuotaB > 0 || retribuzionePensionabileFinale > 0 || imponibile1996 > 0;
+    if (!haDati) return undefined;
+
+    return {
+      anniQuotaA,
+      anniQuotaB,
+      retribuzionePensionabileFinale,
+      imponibile1996,
+      percentualeRivalutazioneQuotaB,
     };
   }
 

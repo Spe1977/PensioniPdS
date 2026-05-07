@@ -734,6 +734,158 @@ describe('PensionEngineService', () => {
     });
   });
 
+  // ── Test: sistema misto Polizia di Stato (Quote A/B/C) ──
+
+  describe('sistema misto Polizia di Stato', () => {
+    it('espone i coefficienti ISTAT FOI(nt) 2023 per gli anni di Quota B', () => {
+      expect(service.getCoefficienteIstatFoi2023(1993)).toBe(1.911);
+      expect(service.getCoefficienteIstatFoi2023(1994)).toBe(1.839);
+      expect(service.getCoefficienteIstatFoi2023(1995)).toBe(1.745);
+      expect(service.getCoefficienteIstatFoi2023(1996)).toBe(1.68);
+      expect(service.getCoefficienteIstatFoi2023(2023)).toBe(1);
+    });
+
+    it('calcola la Quota A: retribuzione finale × anni × 2,44%', () => {
+      // Spec §5.4: 44.917,49 × 3 × 2,44% = 3.287,96
+      const quotaA = service.calcolaQuotaA(44917.49, 3);
+      expect(quotaA).toBeCloseTo(3287.96, 2);
+    });
+
+    it('stima le retribuzioni 1993-1995 a partire dall’imponibile 1996', () => {
+      // Spec §7.4: 20.000 nel 1996 → 17.582,42 / 18.270,80 / 19.255,01
+      const stima = service.stimaRetribuzioniQuotaB(20000, 1996);
+      expect(stima.retribuzione1993).toBeCloseTo(17582.42, 2);
+      expect(stima.retribuzione1994).toBeCloseTo(18270.8, 2);
+      expect(stima.retribuzione1995).toBeCloseTo(19255.01, 2);
+    });
+
+    it('calcola la Quota B con media nominale e aliquota 2,44%', () => {
+      // Spec §8.5: media 18.369,41 × 3 × 2,44% = 1.344,64
+      const mediaB = (17582.42 + 18270.8 + 19255.01) / 3;
+      const quotaB = service.calcolaQuotaB(mediaB, 3);
+      expect(quotaB).toBeCloseTo(1344.64, 2);
+    });
+
+    it('integra Quota A + B nel calcolo netto con scenario misto e rivalutazione 0% di default', () => {
+      const result = service.calcolaPensioneNettaAnzianita({
+        scenario: 'misto',
+        montanteContributivo: 350000,
+        coefficienteTrasformazione: 0.052,
+        ultimoImponibileAnnuo: 35000,
+        addizionaleRegionalePercentuale: 1.73,
+        addizionaleComunalePercentuale: 0.8,
+        applicaSeiScatti: false,
+        quoteMiste: {
+          retribuzionePensionabileFinale: 44917.49,
+          anniQuotaA: 3,
+          anniQuotaB: 3,
+          imponibile1996: 20000,
+        },
+      });
+
+      const dettaglio = result.dettaglioQuoteMiste!;
+      expect(dettaglio.quotaAAnnua).toBeCloseTo(3287.96, 2);
+      expect(dettaglio.quotaBAnnua).toBeCloseTo(1344.64, 2);
+      expect(dettaglio.percentualeRivalutazioneQuotaB).toBe(0);
+      expect(dettaglio.metodoQuotaB).toBe('stimata_da_1996');
+      expect(dettaglio.affidabilitaQuotaB).toBe('media');
+      // La quotaRetributivaAnnua nel result include anche i sei scatti retributivi
+      expect(result.quotaRetributivaAnnua).toBeCloseTo(3287.96 + 1344.64, 2);
+    });
+
+    it('applica la rivalutazione ISTAT al 100% sulla Quota B se richiesto', () => {
+      // Spec §8.6: con rivalutazione piena MediaB ≈ 33.600 → QuotaB ≈ 2.459,52
+      const result = service.calcolaPensioneNettaAnzianita({
+        scenario: 'misto',
+        ultimoImponibileAnnuo: 35000,
+        applicaSeiScatti: false,
+        quoteMiste: {
+          retribuzionePensionabileFinale: 44917.49,
+          anniQuotaA: 0,
+          anniQuotaB: 3,
+          imponibile1996: 20000,
+          percentualeRivalutazioneQuotaB: 1,
+        },
+      });
+
+      const dettaglio = result.dettaglioQuoteMiste!;
+      expect(dettaglio.quotaBAnnua).toBeCloseTo(2459.52, 0);
+    });
+
+    it('preferisce gli imponibili reali 1993-1995 quando forniti (modalità esperto)', () => {
+      const result = service.calcolaPensioneNettaAnzianita({
+        scenario: 'misto',
+        ultimoImponibileAnnuo: 35000,
+        applicaSeiScatti: false,
+        quoteMiste: {
+          retribuzionePensionabileFinale: 0,
+          anniQuotaA: 0,
+          anniQuotaB: 3,
+          imponibile1993Manuale: 18000,
+          imponibile1994Manuale: 19000,
+          imponibile1995Manuale: 20000,
+        },
+      });
+
+      const dettaglio = result.dettaglioQuoteMiste!;
+      expect(dettaglio.metodoQuotaB).toBe('imponibili_reali_1993_1995');
+      expect(dettaglio.affidabilitaQuotaB).toBe('alta');
+      expect(dettaglio.mediaQuotaB).toBeCloseTo((18000 + 19000 + 20000) / 3, 2);
+    });
+
+    it('usa la quota B manuale quando fornita', () => {
+      const result = service.calcolaPensioneNettaAnzianita({
+        scenario: 'misto',
+        ultimoImponibileAnnuo: 35000,
+        applicaSeiScatti: false,
+        quoteMiste: {
+          anniQuotaB: 3,
+          quotaBManuale: 1500,
+        },
+      });
+
+      const dettaglio = result.dettaglioQuoteMiste!;
+      expect(dettaglio.metodoQuotaB).toBe('manuale');
+      expect(dettaglio.quotaBAnnua).toBe(1500);
+    });
+
+    it('azzera Quote A e B nello scenario contributivo puro mantenendo Quota C', () => {
+      const result = service.calcolaPensioneNettaAnzianita({
+        scenario: 'contributivo_puro',
+        montanteContributivo: 400000,
+        coefficienteTrasformazione: 0.052,
+        ultimoImponibileAnnuo: 35000,
+        applicaSeiScatti: false,
+        quoteMiste: {
+          retribuzionePensionabileFinale: 44917.49,
+          anniQuotaA: 3,
+          anniQuotaB: 3,
+          imponibile1996: 20000,
+        },
+      });
+
+      const dettaglio = result.dettaglioQuoteMiste!;
+      expect(dettaglio.quotaAAnnua).toBe(0);
+      expect(dettaglio.quotaBAnnua).toBe(0);
+      expect(dettaglio.quotaCAnnua).toBeGreaterThan(0);
+      expect(result.quotaRetributivaAnnua).toBe(0);
+    });
+
+    it('mantiene la retro-compatibilità: senza quoteMiste usa quotaRetributivaAnnua manuale', () => {
+      const result = service.calcolaPensioneNettaAnzianita({
+        scenario: 'misto',
+        quotaRetributivaAnnua: 9000,
+        montanteContributivo: 350000,
+        coefficienteTrasformazione: 0.052,
+        ultimoImponibileAnnuo: 35000,
+        applicaSeiScatti: true,
+      });
+
+      expect(result.dettaglioQuoteMiste).toBeUndefined();
+      expect(result.quotaRetributivaAnnua).toBe(14250); // 9000 + 5250 sei scatti
+    });
+  });
+
   // ── Test: utility ──
 
   describe('Utility', () => {

@@ -1,15 +1,24 @@
 import { Injectable } from '@angular/core';
 import {
+  AffidabilitaStima,
   ContributoAnnuale,
+  DettaglioQuoteMiste,
   Durata,
+  MetodoQuotaB,
   PensioneNettaBaseInput,
   PensioneNettaAnzianitaInput,
   PensioneNettaEtaAnzianitaInput,
   PensioneNettaLimitiEtaInput,
   PensioneNettaResult,
   PensionResult,
+  QuoteMisteInput,
   RequisitiAnzianita,
 } from './pension-engine.models';
+
+interface CalcoloQuoteRetributive {
+  quotaRetributivaBase: number;
+  dettaglio?: DettaglioQuoteMiste;
+}
 
 interface RequisitiAnnualiAggiornabili {
   mesiExtra: number;
@@ -22,6 +31,27 @@ export class PensionEngineService {
   private readonly quotaSeiScatti = 0.15;
   private readonly mensilitaPensione = 13;
   private readonly ultimoAnnoRivalutazioneUfficiale = 2025;
+  /**
+   * Aliquota retributiva annua per il sistema misto (art. 54 DPR 1092/1973,
+   * Circ. INPS n. 44/2022): 2,44% per ogni anno utile maturato al 31/12/1995
+   * per il personale delle Forze di polizia a ordinamento civile con
+   * anzianità contributiva al 31/12/1995 inferiore a 18 anni.
+   */
+  private readonly aliquotaRetributivaAnnuaMisto = 0.0244;
+
+  /**
+   * Coefficienti ISTAT FOI(nt) - generale al netto dei tabacchi - a valori 2023.
+   * Usati per la ricostruzione storica delle retribuzioni pensionabili
+   * 1993-1995 ai fini della Quota B nel sistema misto.
+   * Fonte: ISTAT FOI 2023.
+   */
+  private readonly coefficientiIstatFoi2023: Record<number, number> = {
+    1993: 1.911,
+    1994: 1.839,
+    1995: 1.745,
+    1996: 1.68,
+    2023: 1,
+  };
   private readonly aliquoteIrpef2026 = [
     { finoA: 28_000, aliquota: 0.23 },
     { finoA: 50_000, aliquota: 0.33 },
@@ -599,8 +629,9 @@ export class PensionEngineService {
    */
   calcolaPensioneNettaAnzianita(input: PensioneNettaAnzianitaInput): PensioneNettaResult {
     const ultimoImponibileAnnuo = this.soloPositivi(input.ultimoImponibileAnnuo);
+    const calcoloQuote = this.determinaQuoteRetributive(input);
     const quotaRetributivaBase =
-      input.scenario === 'contributivo_puro' ? 0 : this.soloPositivi(input.quotaRetributivaAnnua);
+      input.scenario === 'contributivo_puro' ? 0 : calcoloQuote.quotaRetributivaBase;
     const montanteContributivo = this.calcolaMontanteContributivoDaInput(input);
     const coefficienteTrasformazione = this.normalizzaPercentuale(
       input.coefficienteTrasformazione ?? 0,
@@ -627,6 +658,12 @@ export class PensionEngineService {
     const impostaNettaAnnua = Math.max(irpefLordaAnnua - detrazioniAnnue + addizionaliAnnue, 0);
     const pensioneNettaAnnua = Math.max(pensioneLordaAnnua - impostaNettaAnnua, 0);
 
+    const dettaglioQuoteMiste = this.componiDettaglioQuoteMiste(
+      calcoloQuote.dettaglio,
+      input.scenario,
+      quotaContributivaAnnua,
+    );
+
     return {
       scenario: input.scenario,
       montanteContributivoBase: this.arrotondaEuro(montanteContributivo),
@@ -652,6 +689,7 @@ export class PensionEngineService {
           ? 'Sei scatti inclusi secondo lo scenario di calcolo selezionato.'
           : 'Sei scatti esclusi su scelta manuale.',
       ],
+      dettaglioQuoteMiste,
     };
   }
 
@@ -675,8 +713,9 @@ export class PensionEngineService {
    */
   calcolaPensioneNettaLimitiEta(input: PensioneNettaLimitiEtaInput): PensioneNettaResult {
     const ultimoImponibileAnnuo = this.soloPositivi(input.ultimoImponibileAnnuo);
+    const calcoloQuote = this.determinaQuoteRetributive(input);
     const quotaRetributivaBase =
-      input.scenario === 'contributivo_puro' ? 0 : this.soloPositivi(input.quotaRetributivaAnnua);
+      input.scenario === 'contributivo_puro' ? 0 : calcoloQuote.quotaRetributivaBase;
     const montanteContributivoBase = this.calcolaMontanteContributivoDaInput(input);
     const coefficienteTrasformazione = this.normalizzaPercentuale(
       input.coefficienteTrasformazione ?? 0,
@@ -739,6 +778,11 @@ export class PensionEngineService {
           : 'Sei scatti esclusi su scelta manuale.',
         'Le addizionali regionali e comunali sono stimate e possono variare in caso di cambio di residenza.',
       ],
+      dettaglioQuoteMiste: this.componiDettaglioQuoteMiste(
+        calcoloQuote.dettaglio,
+        input.scenario,
+        quotaContributivaAnnua,
+      ),
     };
   }
 
@@ -791,6 +835,240 @@ export class PensionEngineService {
     }
 
     return this.arrotondaEuro(Math.max(detrazione, 0));
+  }
+
+  /**
+   * Restituisce il coefficiente ISTAT FOI(nt) per ricostruire una retribuzione
+   * dell'anno indicato a valori 2023.
+   */
+  getCoefficienteIstatFoi2023(anno: number): number | undefined {
+    return this.coefficientiIstatFoi2023[anno];
+  }
+
+  /**
+   * Calcola la Quota A retributiva (servizio fino al 31/12/1992) con aliquota
+   * art. 54 DPR 1092/1973 (Circ. INPS 44/2022).
+   */
+  calcolaQuotaA(retribuzionePensionabileFinale: number, anniQuotaA: number): number {
+    const retribuzione = this.soloPositivi(retribuzionePensionabileFinale);
+    const anni = this.soloPositivi(anniQuotaA);
+    return retribuzione * anni * this.aliquotaRetributivaAnnuaMisto;
+  }
+
+  /**
+   * Stima le retribuzioni 1993, 1994, 1995 a partire da un imponibile noto
+   * di un anno base (tipicamente 1996), usando i coefficienti ISTAT FOI(nt).
+   *
+   * Formula: RetribuzioneAnnoX = imponibileBase × coeffBase / coeffAnnoX
+   */
+  stimaRetribuzioniQuotaB(
+    imponibileBase: number,
+    annoBase = 1996,
+  ): { retribuzione1993: number; retribuzione1994: number; retribuzione1995: number } {
+    const valore = this.soloPositivi(imponibileBase);
+    const coeffBase =
+      this.coefficientiIstatFoi2023[annoBase] ?? this.coefficientiIstatFoi2023[1996];
+
+    return {
+      retribuzione1993: this.proiettaRetribuzioneStorica(valore, coeffBase, 1993),
+      retribuzione1994: this.proiettaRetribuzioneStorica(valore, coeffBase, 1994),
+      retribuzione1995: this.proiettaRetribuzioneStorica(valore, coeffBase, 1995),
+    };
+  }
+
+  /**
+   * Calcola la Quota B (servizio 1993-1995) usando la media delle retribuzioni
+   * pensionabili stimate o reali e l'aliquota 2,44% × anni di Quota B.
+   */
+  calcolaQuotaB(mediaRetribuzioniQuotaB: number, anniQuotaB: number): number {
+    const media = this.soloPositivi(mediaRetribuzioniQuotaB);
+    const anni = this.soloPositivi(anniQuotaB);
+    return media * anni * this.aliquotaRetributivaAnnuaMisto;
+  }
+
+  /**
+   * Determina la quota retributiva base e, se ci sono dati sufficienti,
+   * il dettaglio Quote A/B del sistema misto.
+   *
+   * Logica:
+   * - se l'utente fornisce `quoteMiste` con `quotaAManuale`/`quotaBManuale`
+   *   o anni e retribuzioni, calcola le quote A e B separatamente;
+   * - in mancanza di dati, ricade sul valore manuale `quotaRetributivaAnnua`
+   *   esistente, mantenendo la retro-compatibilità.
+   */
+  private determinaQuoteRetributive(input: PensioneNettaBaseInput): CalcoloQuoteRetributive {
+    const fallback = this.soloPositivi(input.quotaRetributivaAnnua);
+    const quoteMiste = input.quoteMiste;
+    if (!quoteMiste) {
+      return { quotaRetributivaBase: fallback };
+    }
+
+    const anniQuotaA = this.soloPositivi(quoteMiste.anniQuotaA);
+    const anniQuotaB = this.soloPositivi(quoteMiste.anniQuotaB);
+    const retribuzioneFinale = this.soloPositivi(quoteMiste.retribuzionePensionabileFinale);
+    const percentualeRivalutazione = this.normalizzaPercentuale(
+      quoteMiste.percentualeRivalutazioneQuotaB ?? 0,
+    );
+
+    const haDatiManuali =
+      quoteMiste.quotaAManuale !== undefined || quoteMiste.quotaBManuale !== undefined;
+    const haAnni = anniQuotaA > 0 || anniQuotaB > 0;
+    const haDatiB = this.haDatiPerStimaQuotaB(quoteMiste);
+    if (!haDatiManuali && !haAnni && !haDatiB) {
+      return { quotaRetributivaBase: fallback };
+    }
+
+    const stima = this.stimaRetribuzioniPerQuotaB(quoteMiste);
+    const finali = this.applicaRivalutazioneQuotaB(stima, percentualeRivalutazione);
+    const mediaQuotaB =
+      anniQuotaB > 0
+        ? (finali.retribuzione1993 + finali.retribuzione1994 + finali.retribuzione1995) / 3
+        : 0;
+
+    const quotaACalcolata = this.calcolaQuotaA(retribuzioneFinale, anniQuotaA);
+    const quotaBCalcolata = this.calcolaQuotaB(mediaQuotaB, anniQuotaB);
+
+    const quotaAFinale =
+      quoteMiste.quotaAManuale !== undefined
+        ? this.soloPositivi(quoteMiste.quotaAManuale)
+        : quotaACalcolata;
+    const quotaBFinale =
+      quoteMiste.quotaBManuale !== undefined
+        ? this.soloPositivi(quoteMiste.quotaBManuale)
+        : quotaBCalcolata;
+
+    const quotaRetributivaBase = quotaAFinale + quotaBFinale;
+    const metodoQuotaB = this.determinaMetodoQuotaB(quoteMiste, anniQuotaB);
+    const affidabilitaQuotaB = this.determinaAffidabilitaQuotaB(quoteMiste, metodoQuotaB);
+
+    return {
+      quotaRetributivaBase,
+      dettaglio: {
+        anniQuotaA,
+        anniQuotaB,
+        aliquotaQuotaA: anniQuotaA * this.aliquotaRetributivaAnnuaMisto,
+        aliquotaQuotaB: anniQuotaB * this.aliquotaRetributivaAnnuaMisto,
+        retribuzionePensionabileFinale: this.arrotondaEuro(retribuzioneFinale),
+        retribuzione1993Stimata: this.arrotondaEuro(stima.retribuzione1993),
+        retribuzione1994Stimata: this.arrotondaEuro(stima.retribuzione1994),
+        retribuzione1995Stimata: this.arrotondaEuro(stima.retribuzione1995),
+        retribuzione1993Finale: this.arrotondaEuro(finali.retribuzione1993),
+        retribuzione1994Finale: this.arrotondaEuro(finali.retribuzione1994),
+        retribuzione1995Finale: this.arrotondaEuro(finali.retribuzione1995),
+        mediaQuotaB: this.arrotondaEuro(mediaQuotaB),
+        percentualeRivalutazioneQuotaB: percentualeRivalutazione,
+        quotaAAnnua: this.arrotondaEuro(quotaAFinale),
+        quotaBAnnua: this.arrotondaEuro(quotaBFinale),
+        quotaCAnnua: 0,
+        metodoQuotaB,
+        affidabilitaQuotaB,
+      },
+    };
+  }
+
+  private componiDettaglioQuoteMiste(
+    dettaglio: DettaglioQuoteMiste | undefined,
+    scenario: PensioneNettaBaseInput['scenario'],
+    quotaContributivaAnnua: number,
+  ): DettaglioQuoteMiste | undefined {
+    if (!dettaglio) return undefined;
+
+    const isContributivoPuro = scenario === 'contributivo_puro';
+    return {
+      ...dettaglio,
+      quotaAAnnua: isContributivoPuro ? 0 : dettaglio.quotaAAnnua,
+      quotaBAnnua: isContributivoPuro ? 0 : dettaglio.quotaBAnnua,
+      quotaCAnnua: this.arrotondaEuro(quotaContributivaAnnua),
+    };
+  }
+
+  private haDatiPerStimaQuotaB(quoteMiste: QuoteMisteInput): boolean {
+    return (
+      this.soloPositivi(quoteMiste.imponibile1996) > 0 ||
+      this.soloPositivi(quoteMiste.imponibile1993Manuale) > 0 ||
+      this.soloPositivi(quoteMiste.imponibile1994Manuale) > 0 ||
+      this.soloPositivi(quoteMiste.imponibile1995Manuale) > 0
+    );
+  }
+
+  private stimaRetribuzioniPerQuotaB(quoteMiste: QuoteMisteInput): {
+    retribuzione1993: number;
+    retribuzione1994: number;
+    retribuzione1995: number;
+  } {
+    const imponibileBase = this.soloPositivi(quoteMiste.imponibile1996);
+    const annoBase = quoteMiste.annoImponibileBase ?? 1996;
+
+    const stimaDaBase =
+      imponibileBase > 0
+        ? this.stimaRetribuzioniQuotaB(imponibileBase, annoBase)
+        : { retribuzione1993: 0, retribuzione1994: 0, retribuzione1995: 0 };
+
+    const valoreReale1993 = this.soloPositivi(quoteMiste.imponibile1993Manuale);
+    const valoreReale1994 = this.soloPositivi(quoteMiste.imponibile1994Manuale);
+    const valoreReale1995 = this.soloPositivi(quoteMiste.imponibile1995Manuale);
+
+    return {
+      retribuzione1993: valoreReale1993 > 0 ? valoreReale1993 : stimaDaBase.retribuzione1993,
+      retribuzione1994: valoreReale1994 > 0 ? valoreReale1994 : stimaDaBase.retribuzione1994,
+      retribuzione1995: valoreReale1995 > 0 ? valoreReale1995 : stimaDaBase.retribuzione1995,
+    };
+  }
+
+  private applicaRivalutazioneQuotaB(
+    nominali: { retribuzione1993: number; retribuzione1994: number; retribuzione1995: number },
+    percentualeRivalutazione: number,
+  ): { retribuzione1993: number; retribuzione1994: number; retribuzione1995: number } {
+    const quota = Math.min(Math.max(percentualeRivalutazione, 0), 1);
+
+    const rivaluta = (valore: number, anno: 1993 | 1994 | 1995) => {
+      const coeff = this.coefficientiIstatFoi2023[anno];
+      if (!coeff || coeff <= 0 || valore <= 0) return valore;
+      const piena = valore * coeff;
+      return valore + (piena - valore) * quota;
+    };
+
+    return {
+      retribuzione1993: rivaluta(nominali.retribuzione1993, 1993),
+      retribuzione1994: rivaluta(nominali.retribuzione1994, 1994),
+      retribuzione1995: rivaluta(nominali.retribuzione1995, 1995),
+    };
+  }
+
+  private proiettaRetribuzioneStorica(
+    imponibileBase: number,
+    coeffBase: number,
+    anno: 1993 | 1994 | 1995,
+  ): number {
+    const coeffAnno = this.coefficientiIstatFoi2023[anno];
+    if (!coeffAnno || coeffAnno <= 0 || !coeffBase || coeffBase <= 0) return 0;
+    return (imponibileBase * coeffBase) / coeffAnno;
+  }
+
+  private determinaMetodoQuotaB(quoteMiste: QuoteMisteInput, anniQuotaB: number): MetodoQuotaB {
+    if (anniQuotaB <= 0) return 'non_disponibile';
+    if (quoteMiste.quotaBManuale !== undefined) return 'manuale';
+
+    const haTuttiImponibiliReali =
+      this.soloPositivi(quoteMiste.imponibile1993Manuale) > 0 &&
+      this.soloPositivi(quoteMiste.imponibile1994Manuale) > 0 &&
+      this.soloPositivi(quoteMiste.imponibile1995Manuale) > 0;
+    if (haTuttiImponibiliReali) return 'imponibili_reali_1993_1995';
+
+    if (this.soloPositivi(quoteMiste.imponibile1996) > 0) return 'stimata_da_1996';
+    return 'non_disponibile';
+  }
+
+  private determinaAffidabilitaQuotaB(
+    quoteMiste: QuoteMisteInput,
+    metodo: MetodoQuotaB,
+  ): AffidabilitaStima {
+    if (metodo === 'manuale' || metodo === 'imponibili_reali_1993_1995') return 'alta';
+    if (metodo === 'stimata_da_1996') {
+      const annoBase = quoteMiste.annoImponibileBase ?? 1996;
+      return annoBase === 1996 ? 'media' : 'bassa';
+    }
+    return 'bassa';
   }
 
   // ── Utility ──
