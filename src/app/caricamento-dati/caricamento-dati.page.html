@@ -133,6 +133,83 @@
       </div>
     </div>
 
+    <!-- Sistema misto: dettaglio Quota A e Quota B -->
+    @if (isSistemaMisto()) {
+    <div class="manual-data-section fiscal-data-section">
+      <h3 class="section-title">Quota A e Quota B (sistema misto)</h3>
+      <p class="helper-text">
+        Compila per ottenere il calcolo separato delle quote retributive secondo l'art. 54 DPR
+        1092/1973 (aliquota 2,44% per anno utile). Lascia a 0 per usare il valore retributivo
+        manuale già caricato.
+      </p>
+
+      <ion-grid>
+        <ion-row class="ion-align-items-center">
+          <ion-col size="6">
+            <p class="helper-text">Anni utili al 31/12/1992 (Quota A)</p>
+            <ion-input
+              type="number"
+              formControlName="anniQuotaA"
+              placeholder="0"
+              aria-label="Anni Quota A"
+              class="custom-input"
+            ></ion-input>
+          </ion-col>
+          <ion-col size="6">
+            <p class="helper-text">Anni utili 1993-1995 (Quota B)</p>
+            <ion-input
+              type="number"
+              formControlName="anniQuotaB"
+              placeholder="0"
+              aria-label="Anni Quota B"
+              class="custom-input"
+            ></ion-input>
+          </ion-col>
+        </ion-row>
+        <ion-row class="ion-align-items-center">
+          <ion-col size="12">
+            <p class="helper-text">Retribuzione pensionabile finale stimata (€)</p>
+            <ion-input
+              type="number"
+              formControlName="retribuzionePensionabileFinale"
+              placeholder="0"
+              aria-label="Retribuzione pensionabile finale"
+              class="custom-input"
+            ></ion-input>
+          </ion-col>
+        </ion-row>
+        <ion-row class="ion-align-items-center">
+          <ion-col size="6">
+            <p class="helper-text">Imponibile 1996 (€)</p>
+            <ion-input
+              type="number"
+              formControlName="imponibile1996"
+              placeholder="0"
+              aria-label="Imponibile 1996"
+              class="custom-input"
+            ></ion-input>
+          </ion-col>
+          <ion-col size="6">
+            <p class="helper-text">Rivalutazione ISTAT Quota B (%)</p>
+            <ion-input
+              type="number"
+              formControlName="percentualeRivalutazioneQuotaB"
+              placeholder="0"
+              aria-label="Percentuale rivalutazione Quota B"
+              class="custom-input"
+            ></ion-input>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+      <p class="helper-text">
+        Per prudenza la rivalutazione della Quota B è 0% di default. Puoi aumentarla se vuoi
+        applicare parzialmente o totalmente i coefficienti ISTAT FOI 2023 alle retribuzioni
+        1993-1995 stimate dall'imponibile 1996.
+      </p>
+    </div>
+    }
+
     <!-- Pulsante Calcola -->
     <div class="actions-container">
       <ion-button

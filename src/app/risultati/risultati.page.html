@@ -95,10 +95,53 @@
     </ion-card>
     }
 
+    <!-- Dettaglio sistema misto: Quote A / B / C -->
+    @if (dettaglioQuoteMiste()) {
+    <ion-card class="info-card">
+      <ion-card-header>
+        <ion-card-title class="ion-text-center">Dettaglio sistema misto</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="detail-row">
+          <span class="detail-label">
+            Quota A (fino al 31/12/1992) · {{ dettaglioQuoteMiste()?.anniQuotaA }} anni
+          </span>
+          <span class="detail-value"> {{ formatEuro(dettaglioQuoteMiste()?.quotaAAnnua) }} </span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">
+            Quota B (1993-1995) · {{ dettaglioQuoteMiste()?.anniQuotaB }} anni
+          </span>
+          <span class="detail-value"> {{ formatEuro(dettaglioQuoteMiste()?.quotaBAnnua) }} </span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Quota C (dal 1996)</span>
+          <span class="detail-value"> {{ formatEuro(dettaglioQuoteMiste()?.quotaCAnnua) }} </span>
+        </div>
+        <div class="detail-row total-row">
+          <span class="detail-label">Pensione lorda annua</span>
+          <span class="detail-value"> {{ formatEuro(pensioneNetta()?.pensioneLordaAnnua) }} </span>
+        </div>
+        <p class="disclaimer">
+          Metodo Quota B: {{ metodoQuotaBLabel(dettaglioQuoteMiste()?.metodoQuotaB) }} ·
+          rivalutazione ISTAT applicata {{
+          formatPercentualeUI(dettaglioQuoteMiste()?.percentualeRivalutazioneQuotaB) }} ·
+          affidabilità {{ affidabilitaQuotaBLabel(dettaglioQuoteMiste()?.affidabilitaQuotaB) }}.
+        </p>
+        <p class="disclaimer">
+          La Quota B è stimata in modo prudenziale in assenza delle retribuzioni storiche 1993-1995.
+          Il calcolo può differire dal valore liquidato dall'INPS.
+        </p>
+      </ion-card-content>
+    </ion-card>
+    }
+
     <!-- Importo Pensione -->
     <ion-card class="secondary-card">
       <ion-card-header>
-        <ion-card-title class="ion-text-center">Pensione Netta Mensile</ion-card-title>
+        <ion-card-title class="ion-text-center"
+          >Pensione Netta Mensile (su 13 mensilità)</ion-card-title
+        >
       </ion-card-header>
       <ion-card-content class="ion-text-center">
         @if (pensioneNetta()) {

@@ -18,7 +18,12 @@ import {
 import { addIcons } from 'ionicons';
 import { downloadOutline } from 'ionicons/icons';
 import { SimulationStateService } from '../services/simulation-state.service';
-import { Durata, ScenarioCalcoloPensione } from '../services/pension-engine.models';
+import {
+  AffidabilitaStima,
+  Durata,
+  MetodoQuotaB,
+  ScenarioCalcoloPensione,
+} from '../services/pension-engine.models';
 
 @Component({
   selector: 'app-risultati',
@@ -59,6 +64,7 @@ export class RisultatiPage {
   servizioUtile = computed(() => this.risultato()?.servizioUtile ?? null);
   requisitiApplicati = computed(() => this.risultato()?.requisitiApplicati ?? null);
   pensioneNetta = computed(() => this.risultato()?.pensioneNetta ?? null);
+  dettaglioQuoteMiste = computed(() => this.pensioneNetta()?.dettaglioQuoteMiste ?? null);
   etaRichiesta = computed(() => {
     const requisiti = this.requisitiApplicati();
     if (!requisiti?.etaAnniRichiesti) return null;
@@ -98,6 +104,29 @@ export class RisultatiPage {
     if (scenario === 'misto') return 'B - Misto';
     if (scenario === 'contributivo_puro') return 'C - Contributivo puro';
     return '-';
+  }
+
+  metodoQuotaBLabel(metodo: MetodoQuotaB | undefined): string {
+    if (metodo === 'manuale') return 'Inserita manualmente';
+    if (metodo === 'imponibili_reali_1993_1995') return 'Imponibili reali 1993-1995';
+    if (metodo === 'stimata_da_1996') return 'Stimata da imponibile 1996';
+    if (metodo === 'non_disponibile') return 'Non disponibile';
+    return '-';
+  }
+
+  affidabilitaQuotaBLabel(affidabilita: AffidabilitaStima | undefined): string {
+    if (affidabilita === 'alta') return 'Alta';
+    if (affidabilita === 'media') return 'Media';
+    if (affidabilita === 'bassa') return 'Bassa';
+    return '-';
+  }
+
+  formatPercentualeUI(value: number | undefined): string {
+    return new Intl.NumberFormat('it-IT', {
+      style: 'percent',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 1,
+    }).format(value ?? 0);
   }
 
   scaricaRisultatiMarkdown() {
@@ -159,13 +188,29 @@ export class RisultatiPage {
       md += `- **Quota Contributiva Annua:** ${this.formatEuro(p.quotaContributivaAnnua)}\n`;
       md += `- **Sei Scatti su Montante:** ${this.formatEuro(p.seiScattiMontanteFigurativo)}\n`;
       md += `- **Moltiplicatore su Montante:** ${this.formatEuro(p.moltiplicatoreMontante)}\n`;
-      md += `- **Pensione Lorda Annua:** ${this.formatEuro(p.pensioneLordaAnnua)}\n`;
+      if (p.dettaglioQuoteMiste) {
+        const d = p.dettaglioQuoteMiste;
+        md += `\n## Dettaglio sistema misto\n`;
+        md += `- **Quota A annua (fino al 31/12/1992):** ${this.formatEuro(d.quotaAAnnua)} (${d.anniQuotaA} anni × 2,44%)\n`;
+        md += `- **Quota B annua (1993-1995):** ${this.formatEuro(d.quotaBAnnua)} (${d.anniQuotaB} anni × 2,44%)\n`;
+        md += `- **Quota C annua (dal 1996):** ${this.formatEuro(d.quotaCAnnua)}\n`;
+        md += `- **Totale pensione lorda annua:** ${this.formatEuro(p.pensioneLordaAnnua)}\n`;
+        md += `- **Metodo Quota B:** ${this.metodoQuotaBLabel(d.metodoQuotaB)}\n`;
+        md += `- **Rivalutazione ISTAT Quota B applicata:** ${this.formatPercentualeUI(d.percentualeRivalutazioneQuotaB)}\n`;
+        md += `- **Affidabilità Quota B:** ${this.affidabilitaQuotaBLabel(d.affidabilitaQuotaB)}\n`;
+        md += `- Retribuzione pensionabile finale: ${this.formatEuro(d.retribuzionePensionabileFinale)}\n`;
+        if (d.mediaQuotaB > 0) {
+          md += `- Media retribuzioni 1993-1995 usata per Quota B: ${this.formatEuro(d.mediaQuotaB)}\n`;
+        }
+        md += `\n> La quota B è stimata in modo prudenziale in assenza delle retribuzioni storiche 1993-1995. Il calcolo può differire dal valore liquidato dall'INPS.\n`;
+      }
+      md += `\n- **Pensione Lorda Annua:** ${this.formatEuro(p.pensioneLordaAnnua)}\n`;
       md += `- **Pensione Lorda Mensile:** ${this.formatEuro(p.pensioneLordaMensile)}\n`;
       md += `- **IRPEF Lorda Annua:** ${this.formatEuro(p.irpefLordaAnnua)}\n`;
       md += `- **Detrazioni Annue:** ${this.formatEuro(p.detrazioniAnnue)}\n`;
       md += `- **Addizionali Annue:** ${this.formatEuro(p.addizionaliAnnue)}\n`;
       md += `- **Pensione Netta Annua:** ${this.formatEuro(p.pensioneNettaAnnua)}\n`;
-      md += `- **Pensione Netta Mensile:** ${this.formatEuro(p.pensioneNettaMensile)}\n`;
+      md += `- **Pensione Netta Mensile (su 13 mensilità):** ${this.formatEuro(p.pensioneNettaMensile)}\n`;
       if (p.noteBenefici && p.noteBenefici.length > 0) {
         md += `\n### Benefici Applicati\n`;
         p.noteBenefici.forEach((nota) => (md += `- ${nota}\n`));
