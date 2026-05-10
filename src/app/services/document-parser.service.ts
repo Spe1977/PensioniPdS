@@ -144,9 +144,6 @@ export class DocumentParserService {
         /Redditi di lavoro dipendente e assimilati con contratto a tempo indeterminato/i,
         180,
       ) ?? this.importoDopo(normalizzato, /Reddito di lavoro dipendente/i, 100);
-    const detrazioni =
-      this.importoDopo(normalizzato, /Totale detrazioni/i, 90) ??
-      this.importoDopo(normalizzato, /Detrazioni per lavoro dipendente/i, 120);
     const carichiFamiliari =
       this.importoDopo(normalizzato, /Detrazione per carichi di famiglia/i, 100) ?? 0;
     const addizionaleRegionale =
@@ -158,7 +155,6 @@ export class DocumentParserService {
 
     const values: Partial<PensioneNettaAnzianitaInput> = {};
     if (reddito) values.ultimoImponibileAnnuo = this.arrotondaEuro(reddito);
-    if (detrazioni) values.detrazioniAnnue = this.arrotondaEuro(detrazioni);
     if (carichiFamiliari) {
       values.carichiFamiliariDetrazioniAnnue = this.arrotondaEuro(carichiFamiliari);
     }
@@ -180,9 +176,6 @@ export class DocumentParserService {
       values,
       riepilogo: [
         reddito ? `Reddito CU letto: ${this.formatEuro(reddito)}` : 'Reddito CU non trovato',
-        detrazioni
-          ? `Detrazioni annue lette: ${this.formatEuro(detrazioni)}`
-          : 'Detrazioni annue non trovate',
         addizionaleRegionale
           ? `Addizionale regionale letta: ${this.formatEuro(addizionaleRegionale)}`
           : 'Addizionale regionale non trovata',
@@ -193,7 +186,6 @@ export class DocumentParserService {
   private parseBustaPagaPdf(fileName: string, text: string): ParsedDocumentData {
     const normalizzato = this.normalizzaSpazi(text);
     const competenzeMensili = this.importoDopo(normalizzato, /Totale:\s+[0-9.,]+\s+/i, 25);
-    const detrazioniMensili = this.importoDopo(normalizzato, /Totale detrazioni/i, 60);
     const addRegMensile = this.importoDopo(normalizzato, /ADDIZ\.REG\.IRPEF/i, 80) ?? 0;
     const addComMensile = this.somma([
       this.importoDopo(normalizzato, /ADDIZIONALE COMUNALE - SALDO/i, 80) ?? 0,
@@ -203,7 +195,6 @@ export class DocumentParserService {
     const imponibileAnnuo = competenzeMensili ? competenzeMensili * 13 : 0;
     const values: Partial<PensioneNettaAnzianitaInput> = {};
     if (imponibileAnnuo) values.ultimoImponibileAnnuo = this.arrotondaEuro(imponibileAnnuo);
-    if (detrazioniMensili) values.detrazioniAnnue = this.arrotondaEuro(detrazioniMensili * 13);
     if (imponibileAnnuo && addRegMensile) {
       values.addizionaleRegionalePercentuale = this.arrotondaEuro(
         ((addRegMensile * 13) / imponibileAnnuo) * 100,

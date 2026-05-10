@@ -37,7 +37,6 @@ export interface PensioneNettaBaseInput {
   tassiRivalutazioneManuali?: TassoRivalutazioneManuale[];
   coefficienteTrasformazione?: number;
   ultimoImponibileAnnuo: number;
-  detrazioniAnnue?: number;
   addizionaleRegionalePercentuale?: number;
   addizionaleComunalePercentuale?: number;
   carichiFamiliariDetrazioniAnnue?: number;
