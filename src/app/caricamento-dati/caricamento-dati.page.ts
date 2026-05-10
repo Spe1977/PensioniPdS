@@ -110,6 +110,7 @@ export class CaricamentoDatiPage {
       anniQuotaB: [0, [Validators.min(0)]],
       retribuzionePensionabileFinale: [0, [Validators.min(0)]],
       modalitaQuotaB: ['stima_da_1996', Validators.required],
+      annoImponibileBase: [1996, Validators.required],
       imponibile1996: [0, [Validators.min(0)]],
       imponibile1993Manuale: [0, [Validators.min(0)]],
       imponibile1994Manuale: [0, [Validators.min(0)]],
@@ -252,6 +253,7 @@ export class CaricamentoDatiPage {
     const retribuzionePensionabileFinale = this.numero(raw['retribuzionePensionabileFinale']);
     const percentualeRivalutazioneQuotaB = this.numero(raw['percentualeRivalutazioneQuotaB']) / 100;
     const modalita = (raw['modalitaQuotaB'] as string) || 'stima_da_1996';
+    const annoImponibileBase = this.numero(raw['annoImponibileBase']) || 1996;
 
     const imponibile1996 = modalita === 'stima_da_1996' ? this.numero(raw['imponibile1996']) : 0;
     const imponibile1993Manuale =
@@ -280,6 +282,7 @@ export class CaricamentoDatiPage {
       anniQuotaB,
       retribuzionePensionabileFinale,
       imponibile1996,
+      annoImponibileBase: modalita === 'stima_da_1996' ? annoImponibileBase : 1996,
       imponibile1993Manuale,
       imponibile1994Manuale,
       imponibile1995Manuale,
