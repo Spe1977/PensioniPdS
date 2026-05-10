@@ -122,11 +122,18 @@
           <span class="detail-label">Pensione lorda annua</span>
           <span class="detail-value"> {{ formatEuro(pensioneNetta()?.pensioneLordaAnnua) }} </span>
         </div>
+        <div class="detail-row">
+          <span class="detail-label">Affidabilità Quota B</span>
+          <span class="detail-value">
+            <ion-badge [color]="affidabilitaQuotaBColor(dettaglioQuoteMiste()?.affidabilitaQuotaB)">
+              {{ affidabilitaQuotaBLabel(dettaglioQuoteMiste()?.affidabilitaQuotaB) }}
+            </ion-badge>
+          </span>
+        </div>
         <p class="disclaimer">
           Metodo Quota B: {{ metodoQuotaBLabel(dettaglioQuoteMiste()?.metodoQuotaB) }} ·
           rivalutazione ISTAT applicata {{
-          formatPercentualeUI(dettaglioQuoteMiste()?.percentualeRivalutazioneQuotaB) }} ·
-          affidabilità {{ affidabilitaQuotaBLabel(dettaglioQuoteMiste()?.affidabilitaQuotaB) }}.
+          formatPercentualeUI(dettaglioQuoteMiste()?.percentualeRivalutazioneQuotaB) }}.
         </p>
         <p class="disclaimer">
           La Quota B è stimata in modo prudenziale in assenza delle retribuzioni storiche 1993-1995.
