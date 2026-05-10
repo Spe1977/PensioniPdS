@@ -884,6 +884,66 @@ describe('PensionEngineService', () => {
       expect(result.dettaglioQuoteMiste).toBeUndefined();
       expect(result.quotaRetributivaAnnua).toBe(14250); // 9000 + 5250 sei scatti
     });
+
+    it('rapporta i sei scatti retributivi al 2,44% × anni quando il dettaglio è presente', () => {
+      // Spec §10.2: ultimoImponibileAnnuo 40.000, anni ante-1996 totali 6
+      // → seiScattiBase 6.000, effetto retributivo 6.000 × 6 × 2,44% = 878,40
+      const result = service.calcolaPensioneNettaAnzianita({
+        scenario: 'misto',
+        ultimoImponibileAnnuo: 40000,
+        coefficienteTrasformazione: 0.052,
+        applicaSeiScatti: true,
+        quoteMiste: {
+          retribuzionePensionabileFinale: 44917.49,
+          anniQuotaA: 3,
+          anniQuotaB: 3,
+          imponibile1996: 20000,
+        },
+      });
+
+      const dettaglio = result.dettaglioQuoteMiste!;
+      expect(result.seiScattiRetributiviAnnui).toBeCloseTo(878.4, 2);
+      expect(dettaglio.effettoSeiScattiQuotaA).toBeCloseTo(439.2, 2);
+      expect(dettaglio.effettoSeiScattiQuotaB).toBeCloseTo(439.2, 2);
+      // effettoC = seiScattiBase × 33% × coeff = 6.000 × 0,33 × 0,052 = 102,96
+      expect(dettaglio.effettoSeiScattiQuotaC).toBeCloseTo(102.96, 2);
+    });
+
+    it('azzera l’effetto sei scatti su Quota A/B se applicaSeiScatti è false', () => {
+      const result = service.calcolaPensioneNettaAnzianita({
+        scenario: 'misto',
+        ultimoImponibileAnnuo: 40000,
+        applicaSeiScatti: false,
+        quoteMiste: {
+          retribuzionePensionabileFinale: 44917.49,
+          anniQuotaA: 3,
+          anniQuotaB: 3,
+          imponibile1996: 20000,
+        },
+      });
+
+      const dettaglio = result.dettaglioQuoteMiste!;
+      expect(result.seiScattiRetributiviAnnui).toBe(0);
+      expect(dettaglio.effettoSeiScattiQuotaA).toBe(0);
+      expect(dettaglio.effettoSeiScattiQuotaB).toBe(0);
+      expect(dettaglio.effettoSeiScattiQuotaC).toBe(0);
+    });
+  });
+
+  // ── Test: IRPEF per anno ──
+
+  describe('IRPEF per anno di calcolo', () => {
+    it('applica gli scaglioni 2024/2025 (35% sul secondo scaglione) per annoCalcolo < 2026', () => {
+      // 35.000 → 28.000×23% + 7.000×35% = 6.440 + 2.450 = 8.890
+      expect(service.calcolaIrpefLorda(35000, 2024)).toBe(8890);
+      expect(service.calcolaIrpefLorda(35000, 2025)).toBe(8890);
+    });
+
+    it('applica gli scaglioni 2026 (33% sul secondo scaglione) per annoCalcolo >= 2026', () => {
+      // 35.000 → 28.000×23% + 7.000×33% = 6.440 + 2.310 = 8.750
+      expect(service.calcolaIrpefLorda(35000, 2026)).toBe(8750);
+      expect(service.calcolaIrpefLorda(35000, 2030)).toBe(8750);
+    });
   });
 
   // ── Test: utility ──

@@ -130,6 +130,16 @@ export class RisultatiPage {
     return 'medium';
   }
 
+  haEffettoSeiScatti(): boolean {
+    const d = this.dettaglioQuoteMiste();
+    if (!d) return false;
+    return (
+      (d.effettoSeiScattiQuotaA ?? 0) > 0 ||
+      (d.effettoSeiScattiQuotaB ?? 0) > 0 ||
+      (d.effettoSeiScattiQuotaC ?? 0) > 0
+    );
+  }
+
   formatPercentualeUI(value: number | undefined): string {
     return new Intl.NumberFormat('it-IT', {
       style: 'percent',
@@ -203,6 +213,9 @@ export class RisultatiPage {
         md += `- **Quota A annua (fino al 31/12/1992):** ${this.formatEuro(d.quotaAAnnua)} (${d.anniQuotaA} anni × 2,44%)\n`;
         md += `- **Quota B annua (1993-1995):** ${this.formatEuro(d.quotaBAnnua)} (${d.anniQuotaB} anni × 2,44%)\n`;
         md += `- **Quota C annua (dal 1996):** ${this.formatEuro(d.quotaCAnnua)}\n`;
+        md += `- **Effetto sei scatti su Quota A:** ${this.formatEuro(d.effettoSeiScattiQuotaA)}\n`;
+        md += `- **Effetto sei scatti su Quota B:** ${this.formatEuro(d.effettoSeiScattiQuotaB)}\n`;
+        md += `- **Effetto sei scatti su Quota C:** ${this.formatEuro(d.effettoSeiScattiQuotaC)}\n`;
         md += `- **Totale pensione lorda annua:** ${this.formatEuro(p.pensioneLordaAnnua)}\n`;
         md += `- **Metodo Quota B:** ${this.metodoQuotaBLabel(d.metodoQuotaB)}\n`;
         md += `- **Rivalutazione ISTAT Quota B applicata:** ${this.formatPercentualeUI(d.percentualeRivalutazioneQuotaB)}\n`;
@@ -211,10 +224,17 @@ export class RisultatiPage {
         if (d.mediaQuotaB > 0) {
           md += `- Media retribuzioni 1993-1995 usata per Quota B: ${this.formatEuro(d.mediaQuotaB)}\n`;
         }
+        md += `\n> Sei scatti rapportati al 2,44% × anni utili al 31/12/1995 (Circ. INPS 44/2022) anziché sommati per intero alla pensione retributiva annua.\n`;
         md += `\n> La quota B è stimata in modo prudenziale in assenza delle retribuzioni storiche 1993-1995. Il calcolo può differire dal valore liquidato dall'INPS.\n`;
       }
+      const annoIrpef = res.dataDecorrenza.getFullYear();
+      const aliquoteIrpefLabel =
+        annoIrpef < 2026
+          ? `IRPEF ${annoIrpef}: 23% / 35% / 43%`
+          : `IRPEF ${annoIrpef}: 23% / 33% / 43%`;
       md += `\n- **Pensione Lorda Annua:** ${this.formatEuro(p.pensioneLordaAnnua)}\n`;
       md += `- **Pensione Lorda Mensile:** ${this.formatEuro(p.pensioneLordaMensile)}\n`;
+      md += `- **${aliquoteIrpefLabel}**\n`;
       md += `- **IRPEF Lorda Annua:** ${this.formatEuro(p.irpefLordaAnnua)}\n`;
       md += `- **Detrazioni Annue:** ${this.formatEuro(p.detrazioniAnnue)}\n`;
       md += `- **Addizionali Annue:** ${this.formatEuro(p.addizionaliAnnue)}\n`;

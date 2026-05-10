@@ -160,6 +160,20 @@ export interface DettaglioQuoteMiste {
   quotaAAnnua: number;
   quotaBAnnua: number;
   quotaCAnnua: number;
+  /**
+   * Effetto retributivo dei sei scatti rapportato all'aliquota 2,44% × anniQuotaA
+   * (Circ. INPS 44/2022). Quando applicabile sostituisce la somma piena dei sei scatti.
+   */
+  effettoSeiScattiQuotaA: number;
+  /**
+   * Effetto retributivo dei sei scatti rapportato all'aliquota 2,44% × anniQuotaB.
+   */
+  effettoSeiScattiQuotaB: number;
+  /**
+   * Effetto contributivo dei sei scatti sulla Quota C: incremento figurativo del
+   * montante (15% × ultimo imponibile × 33%) trasformato in pensione annua.
+   */
+  effettoSeiScattiQuotaC: number;
   metodoQuotaB: MetodoQuotaB;
   affidabilitaQuotaB: AffidabilitaStima;
 }
