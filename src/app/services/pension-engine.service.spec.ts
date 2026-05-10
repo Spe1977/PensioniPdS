@@ -478,6 +478,23 @@ describe('PensionEngineService', () => {
       expect(result.avviso).toContain('2028');
     });
 
+    it('annulla la finestra mobile se al limite ordinamentale ha già 41 anni di servizio utile', () => {
+      // Eccezione "Chiusura Finestra" (penps.md): nascita 01/01/1966 e assunzione
+      // 01/01/1990 → al 1/2/2026 (limite 60) ha 36 anni effettivi + 5 magg = 41 utili.
+      const result = service.calcolaDataPensionamentoLimitiEta(
+        new Date(1966, 0, 1),
+        new Date(1990, 0, 1),
+        60,
+      );
+
+      expect(dataIso(result.dataMaturazioneDiritto)).toBe('2026-02-01');
+      expect(dataIso(result.dataDecorrenza)).toBe('2026-02-01');
+      expect(result.requisitiApplicati.finestraMobileMesi).toBe(0);
+      expect(result.servizioUtile.anni * 12 + result.servizioUtile.mesi).toBeGreaterThanOrEqual(
+        41 * 12,
+      );
+    });
+
     it('rispetta almeno 20 anni di servizio utile nei casi di assunzione tardiva', () => {
       const result = service.calcolaDataPensionamentoLimitiEta(
         new Date(1966, 0, 1),
@@ -501,7 +518,6 @@ describe('PensionEngineService', () => {
         montanteContributivo: 220000,
         coefficienteTrasformazione: 5.2,
         ultimoImponibileAnnuo: 40000,
-        detrazioniAnnue: 1955,
         addizionaleRegionalePercentuale: 1.73,
         addizionaleComunalePercentuale: 0.8,
       });
@@ -524,7 +540,6 @@ describe('PensionEngineService', () => {
         montanteContributivo: 350000,
         coefficienteTrasformazione: 0.052,
         ultimoImponibileAnnuo: 35000,
-        detrazioniAnnue: 1955,
         addizionaleRegionalePercentuale: 1.73,
         addizionaleComunalePercentuale: 0.8,
       });
@@ -544,7 +559,6 @@ describe('PensionEngineService', () => {
         montanteContributivo: 400000,
         coefficienteTrasformazione: 5.2,
         ultimoImponibileAnnuo: 35000,
-        detrazioniAnnue: 1955,
         addizionaleRegionalePercentuale: 1.73,
         addizionaleComunalePercentuale: 0.8,
       });
@@ -594,7 +608,6 @@ describe('PensionEngineService', () => {
         montanteContributivo: 220000,
         coefficienteTrasformazione: 5.2,
         ultimoImponibileAnnuo: 40000,
-        detrazioniAnnue: 1955,
         addizionaleRegionalePercentuale: 1.73,
         addizionaleComunalePercentuale: 0.8,
       });
@@ -619,7 +632,6 @@ describe('PensionEngineService', () => {
         montanteContributivo: 350000,
         coefficienteTrasformazione: 0.052,
         ultimoImponibileAnnuo: 35000,
-        detrazioniAnnue: 1955,
         addizionaleRegionalePercentuale: 1.73,
         addizionaleComunalePercentuale: 0.8,
       });
@@ -635,7 +647,6 @@ describe('PensionEngineService', () => {
         montanteContributivo: 400000,
         coefficienteTrasformazione: 5.2,
         ultimoImponibileAnnuo: 35000,
-        detrazioniAnnue: 1955,
         addizionaleRegionalePercentuale: 1.73,
         addizionaleComunalePercentuale: 0.8,
       });
@@ -655,7 +666,6 @@ describe('PensionEngineService', () => {
         montanteContributivo: 220000,
         coefficienteTrasformazione: 5.2,
         ultimoImponibileAnnuo: 40000,
-        detrazioniAnnue: 1955,
         addizionaleRegionalePercentuale: 1.73,
         addizionaleComunalePercentuale: 0.8,
         applicaMoltiplicatore: true,
@@ -679,7 +689,6 @@ describe('PensionEngineService', () => {
         montanteContributivo: 350000,
         coefficienteTrasformazione: 0.052,
         ultimoImponibileAnnuo: 35000,
-        detrazioniAnnue: 1955,
         addizionaleRegionalePercentuale: 1.73,
         addizionaleComunalePercentuale: 0.8,
         applicaMoltiplicatore: true,
@@ -700,7 +709,6 @@ describe('PensionEngineService', () => {
         montanteContributivo: 400000,
         coefficienteTrasformazione: 5.2,
         ultimoImponibileAnnuo: 35000,
-        detrazioniAnnue: 1955,
         addizionaleRegionalePercentuale: 1.73,
         addizionaleComunalePercentuale: 0.8,
         applicaMoltiplicatore: true,

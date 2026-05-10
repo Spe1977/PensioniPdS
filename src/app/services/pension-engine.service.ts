@@ -514,7 +514,7 @@ export class PensionEngineService {
       servizioAlLimite.servizioUtile.anni * 12 + servizioAlLimite.servizioUtile.mesi;
     const haAnzianitaAlLimite = mesiUtiliAlLimite >= 35 * 12;
 
-    const requisiti = this.getRequisitiLimitiEta(
+    let requisiti = this.getRequisitiLimitiEta(
       dataLimiteOrdinamentale.getFullYear(),
       limiteOrdinamentale,
       !haAnzianitaAlLimite,
@@ -522,29 +522,53 @@ export class PensionEngineService {
 
     let dataDecorrenza: Date;
     let dataMaturazione: Date;
+    let chiusuraFinestra = false;
 
     if (haAnzianitaAlLimite) {
-      // Caso 1/2: Ha 35 anni al limite ordinamentale
-      const data35Anni = this.trovaDataServizioUtile(dataAssunzione, 35 * 12);
-      const dataScadenzaFinestra35 = this.aggiungiMesi(data35Anni, 12);
+      // Eccezione "Chiusura Finestra" (penps.md): se al limite ordinamentale è già
+      // posseduto il requisito di massima anzianità (41 anni di servizio utile),
+      // la finestra mobile si annulla e la decorrenza è immediata.
+      if (mesiUtiliAlLimite >= 41 * 12) {
+        dataMaturazione = dataLimiteOrdinamentale;
+        dataDecorrenza = dataLimiteOrdinamentale;
+        chiusuraFinestra = true;
+      } else {
+        const data35Anni = this.trovaDataServizioUtile(dataAssunzione, 35 * 12);
+        const dataScadenzaFinestra35 = this.aggiungiMesi(data35Anni, 12);
 
-      dataMaturazione = dataLimiteOrdinamentale;
-      dataDecorrenza = this.maxData(dataLimiteOrdinamentale, dataScadenzaFinestra35);
+        dataMaturazione = dataLimiteOrdinamentale;
+        dataDecorrenza = this.maxData(dataLimiteOrdinamentale, dataScadenzaFinestra35);
+      }
     } else {
       // Caso con adeguamento speranza di vita
       const dataAdeguata = this.aggiungiMesi(dataLimiteOrdinamentale, requisiti.etaMesiExtra ?? 0);
-      const dataDecorrenzaLimite = this.aggiungiMesi(dataAdeguata, requisiti.finestraMobileMesi);
+      const servizioAdeguato = this.calcolaServizioUtile(dataAssunzione, dataAdeguata);
+      const mesiUtiliAdeguato =
+        servizioAdeguato.servizioUtile.anni * 12 + servizioAdeguato.servizioUtile.mesi;
 
-      const data35Anni = this.trovaDataServizioUtile(dataAssunzione, 35 * 12);
-      const dataDecorrenza35 = this.aggiungiMesi(data35Anni, 12);
-
-      if (dataDecorrenza35.getTime() < dataDecorrenzaLimite.getTime()) {
-        dataDecorrenza = dataDecorrenza35;
-        dataMaturazione = data35Anni;
-      } else {
-        dataDecorrenza = dataDecorrenzaLimite;
+      if (mesiUtiliAdeguato >= 41 * 12) {
+        // Anche con adeguamento, la massima anzianità chiude la finestra.
         dataMaturazione = dataAdeguata;
+        dataDecorrenza = dataAdeguata;
+        chiusuraFinestra = true;
+      } else {
+        const dataDecorrenzaLimite = this.aggiungiMesi(dataAdeguata, requisiti.finestraMobileMesi);
+
+        const data35Anni = this.trovaDataServizioUtile(dataAssunzione, 35 * 12);
+        const dataDecorrenza35 = this.aggiungiMesi(data35Anni, 12);
+
+        if (dataDecorrenza35.getTime() < dataDecorrenzaLimite.getTime()) {
+          dataDecorrenza = dataDecorrenza35;
+          dataMaturazione = data35Anni;
+        } else {
+          dataDecorrenza = dataDecorrenzaLimite;
+          dataMaturazione = dataAdeguata;
+        }
       }
+    }
+
+    if (chiusuraFinestra) {
+      requisiti = { ...requisiti, finestraMobileMesi: 0 };
     }
 
     const dataServizioMinimo = this.trovaDataServizioUtile(dataAssunzione, 20 * 12);
