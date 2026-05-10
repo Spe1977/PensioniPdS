@@ -638,8 +638,12 @@ export class PensionEngineService {
     );
     const applicaSeiScatti = input.applicaSeiScatti ?? true;
     const seiScattiBase = applicaSeiScatti ? ultimoImponibileAnnuo * this.quotaSeiScatti : 0;
-    const seiScattiRetributiviAnnui = input.scenario === 'contributivo_puro' ? 0 : seiScattiBase;
     const seiScattiMontanteFigurativo = seiScattiBase * this.aliquotaComputo;
+    const seiScattiRetributiviAnnui = this.calcolaSeiScattiRetributivi(
+      seiScattiBase,
+      input.scenario,
+      calcoloQuote.dettaglio,
+    );
     const montanteFinale = montanteContributivo + seiScattiMontanteFigurativo;
     const quotaContributivaAnnua = montanteFinale * coefficienteTrasformazione;
     const quotaRetributivaAnnua = quotaRetributivaBase + seiScattiRetributiviAnnui;
@@ -662,6 +666,9 @@ export class PensionEngineService {
       calcoloQuote.dettaglio,
       input.scenario,
       quotaContributivaAnnua,
+      seiScattiBase,
+      seiScattiMontanteFigurativo,
+      coefficienteTrasformazione,
     );
 
     return {
@@ -723,8 +730,12 @@ export class PensionEngineService {
 
     const applicaSeiScatti = input.applicaSeiScatti ?? true;
     const seiScattiBase = applicaSeiScatti ? ultimoImponibileAnnuo * this.quotaSeiScatti : 0;
-    const seiScattiRetributiviAnnui = input.scenario === 'contributivo_puro' ? 0 : seiScattiBase;
     const seiScattiMontanteFigurativo = seiScattiBase * this.aliquotaComputo;
+    const seiScattiRetributiviAnnui = this.calcolaSeiScattiRetributivi(
+      seiScattiBase,
+      input.scenario,
+      calcoloQuote.dettaglio,
+    );
 
     const applicaMoltiplicatore = input.applicaMoltiplicatore ?? true;
     const moltiplicatoreMontante = applicaMoltiplicatore
@@ -782,6 +793,9 @@ export class PensionEngineService {
         calcoloQuote.dettaglio,
         input.scenario,
         quotaContributivaAnnua,
+        seiScattiBase,
+        seiScattiMontanteFigurativo,
+        coefficienteTrasformazione,
       ),
     };
   }
@@ -960,6 +974,9 @@ export class PensionEngineService {
         quotaAAnnua: this.arrotondaEuro(quotaAFinale),
         quotaBAnnua: this.arrotondaEuro(quotaBFinale),
         quotaCAnnua: 0,
+        effettoSeiScattiQuotaA: 0,
+        effettoSeiScattiQuotaB: 0,
+        effettoSeiScattiQuotaC: 0,
         metodoQuotaB,
         affidabilitaQuotaB,
       },
@@ -970,16 +987,51 @@ export class PensionEngineService {
     dettaglio: DettaglioQuoteMiste | undefined,
     scenario: PensioneNettaBaseInput['scenario'],
     quotaContributivaAnnua: number,
+    seiScattiBase: number,
+    seiScattiMontanteFigurativo: number,
+    coefficienteTrasformazione: number,
   ): DettaglioQuoteMiste | undefined {
     if (!dettaglio) return undefined;
 
     const isContributivoPuro = scenario === 'contributivo_puro';
+    const effettoA = isContributivoPuro
+      ? 0
+      : dettaglio.anniQuotaA * seiScattiBase * this.aliquotaRetributivaAnnuaMisto;
+    const effettoB = isContributivoPuro
+      ? 0
+      : dettaglio.anniQuotaB * seiScattiBase * this.aliquotaRetributivaAnnuaMisto;
+    const effettoC = seiScattiMontanteFigurativo * coefficienteTrasformazione;
+
     return {
       ...dettaglio,
       quotaAAnnua: isContributivoPuro ? 0 : dettaglio.quotaAAnnua,
       quotaBAnnua: isContributivoPuro ? 0 : dettaglio.quotaBAnnua,
       quotaCAnnua: this.arrotondaEuro(quotaContributivaAnnua),
+      effettoSeiScattiQuotaA: this.arrotondaEuro(effettoA),
+      effettoSeiScattiQuotaB: this.arrotondaEuro(effettoB),
+      effettoSeiScattiQuotaC: this.arrotondaEuro(effettoC),
     };
+  }
+
+  /**
+   * Calcola l'effetto retributivo dei sei scatti sulla pensione annua.
+   *
+   * Quando il dettaglio Quote A/B è disponibile (sistema misto con dati completi)
+   * i sei scatti vengono rapportati all'aliquota 2,44% × anni utili al 31/12/1995
+   * (Circ. INPS 44/2022 §1.3), evitando di sommare per intero il 15% dell'ultimo
+   * imponibile alla pensione retributiva. In assenza di dettaglio si conserva il
+   * comportamento legacy: somma piena del seiScattiBase.
+   */
+  private calcolaSeiScattiRetributivi(
+    seiScattiBase: number,
+    scenario: PensioneNettaBaseInput['scenario'],
+    dettaglio: DettaglioQuoteMiste | undefined,
+  ): number {
+    if (scenario === 'contributivo_puro') return 0;
+    if (!dettaglio) return seiScattiBase;
+
+    const anniRetributivi = dettaglio.anniQuotaA + dettaglio.anniQuotaB;
+    return seiScattiBase * anniRetributivi * this.aliquotaRetributivaAnnuaMisto;
   }
 
   private haDatiPerStimaQuotaB(quoteMiste: QuoteMisteInput): boolean {
