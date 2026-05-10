@@ -179,6 +179,29 @@
           </ion-col>
         </ion-row>
         <ion-row class="ion-align-items-center">
+          <ion-col size="12">
+            <p class="helper-text">Modalità di calcolo della Quota B</p>
+            <ion-select
+              formControlName="modalitaQuotaB"
+              interface="popover"
+              aria-label="Modalità Quota B"
+              class="custom-input"
+            >
+              <ion-select-option value="stima_da_1996">
+                Stima automatica da imponibile 1996
+              </ion-select-option>
+              <ion-select-option value="esperto">
+                Modalità esperto: imponibili reali 1993-1995
+              </ion-select-option>
+              <ion-select-option value="manuale">
+                Quota B già calcolata (manuale)
+              </ion-select-option>
+            </ion-select>
+          </ion-col>
+        </ion-row>
+
+        @if (modalitaQuotaB() === 'stima_da_1996') {
+        <ion-row class="ion-align-items-center">
           <ion-col size="6">
             <p class="helper-text">Imponibile 1996 (€)</p>
             <ion-input
@@ -200,13 +223,85 @@
             ></ion-input>
           </ion-col>
         </ion-row>
+        } @if (modalitaQuotaB() === 'esperto') {
+        <ion-row class="ion-align-items-center">
+          <ion-col size="4">
+            <p class="helper-text">Imponibile 1993 (€)</p>
+            <ion-input
+              type="number"
+              formControlName="imponibile1993Manuale"
+              placeholder="0"
+              aria-label="Imponibile 1993"
+              class="custom-input"
+            ></ion-input>
+          </ion-col>
+          <ion-col size="4">
+            <p class="helper-text">Imponibile 1994 (€)</p>
+            <ion-input
+              type="number"
+              formControlName="imponibile1994Manuale"
+              placeholder="0"
+              aria-label="Imponibile 1994"
+              class="custom-input"
+            ></ion-input>
+          </ion-col>
+          <ion-col size="4">
+            <p class="helper-text">Imponibile 1995 (€)</p>
+            <ion-input
+              type="number"
+              formControlName="imponibile1995Manuale"
+              placeholder="0"
+              aria-label="Imponibile 1995"
+              class="custom-input"
+            ></ion-input>
+          </ion-col>
+        </ion-row>
+        <ion-row class="ion-align-items-center">
+          <ion-col size="12">
+            <p class="helper-text">Rivalutazione ISTAT Quota B (%)</p>
+            <ion-input
+              type="number"
+              formControlName="percentualeRivalutazioneQuotaB"
+              placeholder="0"
+              aria-label="Percentuale rivalutazione Quota B"
+              class="custom-input"
+            ></ion-input>
+          </ion-col>
+        </ion-row>
+        } @if (modalitaQuotaB() === 'manuale') {
+        <ion-row class="ion-align-items-center">
+          <ion-col size="12">
+            <p class="helper-text">Quota B annua già calcolata (€)</p>
+            <ion-input
+              type="number"
+              formControlName="quotaBManuale"
+              placeholder="0"
+              aria-label="Quota B manuale"
+              class="custom-input"
+            ></ion-input>
+          </ion-col>
+        </ion-row>
+        }
       </ion-grid>
 
+      @if (modalitaQuotaB() === 'stima_da_1996') {
       <p class="helper-text">
         Per prudenza la rivalutazione della Quota B è 0% di default. Puoi aumentarla se vuoi
         applicare parzialmente o totalmente i coefficienti ISTAT FOI 2023 alle retribuzioni
         1993-1995 stimate dall'imponibile 1996.
       </p>
+      } @else if (modalitaQuotaB() === 'esperto') {
+      <p class="helper-text">
+        Modalità esperto: inserisci le retribuzioni pensionabili reali del triennio 1993-1995. Se
+        lasci la rivalutazione a 0% verranno usati i valori nominali storici, criterio prudenziale
+        più aderente al calcolo INPS.
+      </p>
+      } @else {
+      <p class="helper-text">
+        Inserisci direttamente la Quota B annua già calcolata (es. da prospetto INPS o
+        riliquidazione ufficiale). Verrà sommata alla Quota A senza ulteriori rivalutazioni.
+      </p>
+      }
     </div>
     }
 

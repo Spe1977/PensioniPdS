@@ -14,6 +14,7 @@ import {
   IonButton,
   IonIcon,
   IonText,
+  IonBadge,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { downloadOutline } from 'ionicons/icons';
@@ -45,6 +46,7 @@ import {
     IonButton,
     IonIcon,
     IonText,
+    IonBadge,
   ],
   providers: [DatePipe],
 })
@@ -119,6 +121,13 @@ export class RisultatiPage {
     if (affidabilita === 'media') return 'Media';
     if (affidabilita === 'bassa') return 'Bassa';
     return '-';
+  }
+
+  affidabilitaQuotaBColor(affidabilita: AffidabilitaStima | undefined): string {
+    if (affidabilita === 'alta') return 'success';
+    if (affidabilita === 'media') return 'warning';
+    if (affidabilita === 'bassa') return 'danger';
+    return 'medium';
   }
 
   formatPercentualeUI(value: number | undefined): string {

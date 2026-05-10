@@ -15,6 +15,8 @@ import {
   IonGrid,
   IonRow,
   IonCol,
+  IonSelect,
+  IonSelectOption,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import {
@@ -60,6 +62,8 @@ import {
     IonGrid,
     IonRow,
     IonCol,
+    IonSelect,
+    IonSelectOption,
   ],
 })
 export class CaricamentoDatiPage {
@@ -105,7 +109,12 @@ export class CaricamentoDatiPage {
       anniQuotaA: [0, [Validators.min(0)]],
       anniQuotaB: [0, [Validators.min(0)]],
       retribuzionePensionabileFinale: [0, [Validators.min(0)]],
+      modalitaQuotaB: ['stima_da_1996', Validators.required],
       imponibile1996: [0, [Validators.min(0)]],
+      imponibile1993Manuale: [0, [Validators.min(0)]],
+      imponibile1994Manuale: [0, [Validators.min(0)]],
+      imponibile1995Manuale: [0, [Validators.min(0)]],
+      quotaBManuale: [0, [Validators.min(0)]],
       percentualeRivalutazioneQuotaB: [0, [Validators.min(0), Validators.max(100)]],
       contributiFuturi: this.fb.array([]),
     });
@@ -113,6 +122,10 @@ export class CaricamentoDatiPage {
 
   isSistemaMisto(): boolean {
     return this.filesForm.get('scenarioPensione')?.value !== 'contributivo_puro';
+  }
+
+  modalitaQuotaB(): 'stima_da_1996' | 'esperto' | 'manuale' {
+    return this.filesForm.get('modalitaQuotaB')?.value ?? 'stima_da_1996';
   }
 
   get contributiFuturi() {
@@ -237,11 +250,29 @@ export class CaricamentoDatiPage {
     const anniQuotaA = this.numero(raw['anniQuotaA']);
     const anniQuotaB = this.numero(raw['anniQuotaB']);
     const retribuzionePensionabileFinale = this.numero(raw['retribuzionePensionabileFinale']);
-    const imponibile1996 = this.numero(raw['imponibile1996']);
     const percentualeRivalutazioneQuotaB = this.numero(raw['percentualeRivalutazioneQuotaB']) / 100;
+    const modalita = (raw['modalitaQuotaB'] as string) || 'stima_da_1996';
+
+    const imponibile1996 = modalita === 'stima_da_1996' ? this.numero(raw['imponibile1996']) : 0;
+    const imponibile1993Manuale =
+      modalita === 'esperto' ? this.numero(raw['imponibile1993Manuale']) : 0;
+    const imponibile1994Manuale =
+      modalita === 'esperto' ? this.numero(raw['imponibile1994Manuale']) : 0;
+    const imponibile1995Manuale =
+      modalita === 'esperto' ? this.numero(raw['imponibile1995Manuale']) : 0;
+    const quotaBManualeRaw = modalita === 'manuale' ? this.numero(raw['quotaBManuale']) : 0;
+    const quotaBManuale =
+      modalita === 'manuale' && quotaBManualeRaw >= 0 ? quotaBManualeRaw : undefined;
 
     const haDati =
-      anniQuotaA > 0 || anniQuotaB > 0 || retribuzionePensionabileFinale > 0 || imponibile1996 > 0;
+      anniQuotaA > 0 ||
+      anniQuotaB > 0 ||
+      retribuzionePensionabileFinale > 0 ||
+      imponibile1996 > 0 ||
+      imponibile1993Manuale > 0 ||
+      imponibile1994Manuale > 0 ||
+      imponibile1995Manuale > 0 ||
+      quotaBManuale !== undefined;
     if (!haDati) return undefined;
 
     return {
@@ -249,6 +280,10 @@ export class CaricamentoDatiPage {
       anniQuotaB,
       retribuzionePensionabileFinale,
       imponibile1996,
+      imponibile1993Manuale,
+      imponibile1994Manuale,
+      imponibile1995Manuale,
+      quotaBManuale,
       percentualeRivalutazioneQuotaB,
     };
   }
