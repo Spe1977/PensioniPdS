@@ -202,17 +202,30 @@
 
         @if (modalitaQuotaB() === 'stima_da_1996') {
         <ion-row class="ion-align-items-center">
-          <ion-col size="6">
-            <p class="helper-text">Imponibile 1996 (€)</p>
+          <ion-col size="4">
+            <p class="helper-text">Anno imponibile base</p>
+            <ion-select
+              formControlName="annoImponibileBase"
+              interface="popover"
+              aria-label="Anno imponibile base"
+              class="custom-input"
+            >
+              <ion-select-option [value]="1996">1996 (consigliato)</ion-select-option>
+              <ion-select-option [value]="1997">1997</ion-select-option>
+              <ion-select-option [value]="1998">1998</ion-select-option>
+            </ion-select>
+          </ion-col>
+          <ion-col size="4">
+            <p class="helper-text">Imponibile anno scelto (€)</p>
             <ion-input
               type="number"
               formControlName="imponibile1996"
               placeholder="0"
-              aria-label="Imponibile 1996"
+              aria-label="Imponibile anno base"
               class="custom-input"
             ></ion-input>
           </ion-col>
-          <ion-col size="6">
+          <ion-col size="4">
             <p class="helper-text">Rivalutazione ISTAT Quota B (%)</p>
             <ion-input
               type="number"
@@ -288,7 +301,8 @@
       <p class="helper-text">
         Per prudenza la rivalutazione della Quota B è 0% di default. Puoi aumentarla se vuoi
         applicare parzialmente o totalmente i coefficienti ISTAT FOI 2023 alle retribuzioni
-        1993-1995 stimate dall'imponibile 1996.
+        1993-1995 stimate. Se l'imponibile 1996 non è disponibile puoi usare il 1997 o 1998 come
+        anno base: l'affidabilità della stima sarà segnata come bassa.
       </p>
       } @else if (modalitaQuotaB() === 'esperto') {
       <p class="helper-text">

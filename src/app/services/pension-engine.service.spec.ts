@@ -745,6 +745,38 @@ describe('PensionEngineService', () => {
       expect(service.getCoefficienteIstatFoi2023(2023)).toBe(1);
     });
 
+    it('espone anche i coefficienti 1997 e 1998 per il fallback su anno base diverso', () => {
+      expect(service.getCoefficienteIstatFoi2023(1997)).toBe(1.652);
+      expect(service.getCoefficienteIstatFoi2023(1998)).toBe(1.624);
+    });
+
+    it('marca come "bassa" l’affidabilità Quota B se la stima parte da 1997/1998', () => {
+      const result1997 = service.calcolaPensioneNettaAnzianita({
+        scenario: 'misto',
+        ultimoImponibileAnnuo: 35000,
+        applicaSeiScatti: false,
+        quoteMiste: {
+          anniQuotaB: 3,
+          imponibile1996: 21000,
+          annoImponibileBase: 1997,
+        },
+      });
+      expect(result1997.dettaglioQuoteMiste!.metodoQuotaB).toBe('stimata_da_1996');
+      expect(result1997.dettaglioQuoteMiste!.affidabilitaQuotaB).toBe('bassa');
+
+      const result1998 = service.calcolaPensioneNettaAnzianita({
+        scenario: 'misto',
+        ultimoImponibileAnnuo: 35000,
+        applicaSeiScatti: false,
+        quoteMiste: {
+          anniQuotaB: 3,
+          imponibile1996: 22000,
+          annoImponibileBase: 1998,
+        },
+      });
+      expect(result1998.dettaglioQuoteMiste!.affidabilitaQuotaB).toBe('bassa');
+    });
+
     it('calcola la Quota A: retribuzione finale × anni × 2,44%', () => {
       // Spec §5.4: 44.917,49 × 3 × 2,44% = 3.287,96
       const quotaA = service.calcolaQuotaA(44917.49, 3);

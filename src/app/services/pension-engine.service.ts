@@ -43,13 +43,19 @@ export class PensionEngineService {
    * Coefficienti ISTAT FOI(nt) - generale al netto dei tabacchi - a valori 2023.
    * Usati per la ricostruzione storica delle retribuzioni pensionabili
    * 1993-1995 ai fini della Quota B nel sistema misto.
-   * Fonte: ISTAT FOI 2023.
+   * Fonte: ISTAT FOI 2023 (tabella `Istat_2023.pdf`).
+   *
+   * 1993-1996 sono i valori previsti dalla specifica; 1997 e 1998 sono inclusi
+   * per consentire il fallback su un anno successivo quando l'imponibile 1996
+   * non è disponibile (con affidabilità segnata come "bassa").
    */
   private readonly coefficientiIstatFoi2023: Record<number, number> = {
     1993: 1.911,
     1994: 1.839,
     1995: 1.745,
     1996: 1.68,
+    1997: 1.652,
+    1998: 1.624,
     2023: 1,
   };
   private readonly aliquoteIrpef2026 = [
